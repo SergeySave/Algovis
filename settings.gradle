@@ -1,0 +1,3 @@
+rootProject.name = 'algovis'
+
+include 'algovis-jvm', 'algovis-js'
