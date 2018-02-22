@@ -1,5 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.2.21'
+    ext.kotlin_coroutines_version = '0.22'
+    ext.main_class = 'com.sergeysav.algovis.Main'
 
     repositories {
         mavenCentral()
@@ -14,10 +16,25 @@ repositories {
     mavenCentral()
 }
 
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     expectedBy project(":")
     testCompile "junit:junit:4.12"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': main_class
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }

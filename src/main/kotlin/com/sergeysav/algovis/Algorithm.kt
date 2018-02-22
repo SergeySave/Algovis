@@ -3,8 +3,8 @@ package com.sergeysav.algovis
 /**
  * @author sergeys
  */
-abstract class Algorithm {
-    final suspend fun run() {
+abstract class Algorithm<T> {
+    suspend fun run() {
         execute()
         complete = true
     }
@@ -13,4 +13,8 @@ abstract class Algorithm {
     
     var complete: Boolean = false
         private set
+    
+    abstract fun getUUIDs(): List<Int>
+    
+    abstract fun doDraw(drawer: Drawer)
 }
