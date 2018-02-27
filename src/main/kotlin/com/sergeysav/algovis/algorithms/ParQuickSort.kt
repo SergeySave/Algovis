@@ -32,66 +32,61 @@ class ParQuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
     }
     
     private suspend fun quickSort(_l: Int, _h: Int) {
-        var l = _l
-        var h = _h
+        var low = _l
+        var high = _h
+        counts.add(low)
+        counts.add(high)
     
-        if (l >= h || !isActive()) return
-        
-        counts.add(l)
-        counts.add(h)
-        
-        var pivotIdx = middleValue(l, h, (h + l) / 2) { x -> array.get(x) }
+        if (low >= high || !isActive()) return
+    
+        var pivotIdx = middleValue(low, high, (high + low) / 2) { x -> array.get(x) }
         pivots.add(pivotIdx)
         val pivotVal = array.get(pivotIdx)
-        
-        val oldLow = l
-        val oldHigh = h
     
-        while (l < h && isActive()) {
-            while (array.get(l) < pivotVal && isActive()) {
-                counts.remove(l)
-                counts.add(++l)
+        val oldLow = low
+        val oldHigh = high
+    
+        while (low < high && isActive()) {
+            while (array.get(low) < pivotVal && isActive()) {
+                counts.remove(low++)
+                counts.add(low)
             }
-            while (array.get(h) > pivotVal && isActive()) {
-                counts.remove(h)
-                counts.add(--h)
+            while (array.get(high) > pivotVal && isActive()) {
+                counts.remove(high--)
+                counts.add(high)
             }
             if (!isActive()) {
                 return
             }
-            if (l < h) {
-                val swapPivotIdx = if (pivotIdx == l) 1 else if (pivotIdx == h) -1 else 0
-                swap(l, h)
+            if (low < high) {
+                val swapPivotIdx = if (pivotIdx == low) 1 else if (pivotIdx == high) -1 else 0
+                swap(low, high)
                 if (swapPivotIdx == 1) {
                     pivots.remove(pivotIdx)
-                    pivotIdx = h
+                    pivotIdx = high
                     pivots.add(pivotIdx)
                 }
                 if (swapPivotIdx == -1) {
                     pivots.remove(pivotIdx)
-                    pivotIdx = l
+                    pivotIdx = low
                     pivots.add(pivotIdx)
                 }
-                counts.remove(l)
-                counts.add(++l)
-                counts.remove(h)
-                counts.add(--h)
-            } else if (l == h) {
-                counts.remove(l)
-                counts.add(++l)
-                counts.remove(h)
-                counts.add(--h)
+                counts.remove(low++)
+                counts.add(low)
+                counts.remove(high--)
+                counts.add(high)
+            } else if (low == high) {
+                counts.remove(low++)
+                counts.add(low)
+                counts.remove(high--)
+                counts.add(high)
             }
         }
-        
-        counts.remove(l)
-        counts.remove(h)
-        pivots.remove(pivotIdx)
-        
+    
         val job = launch {
-            quickSort(oldLow, h)
+            quickSort(oldLow, high)
         }
-        quickSort(l, oldHigh)
+        quickSort(low, oldHigh)
         
         job.join()
     }

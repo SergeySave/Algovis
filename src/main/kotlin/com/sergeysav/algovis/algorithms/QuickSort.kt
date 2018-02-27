@@ -38,9 +38,9 @@ class QuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
         high = h
     
         if (low >= high || !isActive()) return
-        
-        val pivotVal = middleValue(low, high, (high + low) / 2) { x -> array.get(x) }
-        pivotIdx = pivotVal
+    
+        pivotIdx = middleValue(low, high, (high + low) / 2) { x -> array.get(x) }
+        val pivotVal = array.get(pivotIdx)
         
         val oldLow = low
         val oldHigh = high
@@ -71,5 +71,4 @@ class QuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
         high = h
         quickSort(low, oldHigh)
     }
-    
 }

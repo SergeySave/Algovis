@@ -44,6 +44,9 @@ fun main(args: Array<String>) {
                     drawPanel.job?.cancel()
                 }
             })
+            add(JMenuItem("Status: Not Running").apply {
+                drawPanel.statusItem = this
+            })
         })
         add(JMenu("Algorithm").apply {
             add(JMenu("Algorithm Selection").apply {
