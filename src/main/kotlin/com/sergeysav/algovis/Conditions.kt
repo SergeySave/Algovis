@@ -1,6 +1,4 @@
-package com.sergeysav.algovis.conditions
-
-import com.sergeysav.algovis.randomInt
+package com.sergeysav.algovis
 
 /**
  * @author sergeys

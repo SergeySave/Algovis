@@ -1,13 +1,11 @@
-package com.sergeysav.algovis.algorithms
+package com.sergeysav.algovis
 
-import com.sergeysav.algovis.Algorithm
-import com.sergeysav.algovis.BogoSort
-import com.sergeysav.algovis.BubbleSort
-import com.sergeysav.algovis.DelayedArray
-import com.sergeysav.algovis.MergeSort
-import com.sergeysav.algovis.ParMergeSort
-import com.sergeysav.algovis.ParQuickSort
-import com.sergeysav.algovis.QuickSort
+import com.sergeysav.algovis.algorithms.BogoSort
+import com.sergeysav.algovis.algorithms.BubbleSort
+import com.sergeysav.algovis.algorithms.MergeSort
+import com.sergeysav.algovis.algorithms.ParMergeSort
+import com.sergeysav.algovis.algorithms.ParQuickSort
+import com.sergeysav.algovis.algorithms.QuickSort
 
 /**
  * @author sergeys
@@ -17,7 +15,9 @@ val algorithms = mapOf(
         delayed { arr -> BogoSort(arr) } to "Bogo Sort",
         delayed { arr -> BubbleSort(arr) } to "Bubble Sort",
         delayed { arr -> MergeSort(arr) } to "Merge Sort",
-        delayed { arr -> ParMergeSort(arr) } to "Parallel Merge Sort",
+        delayed { arr ->
+            ParMergeSort(arr)
+        } to "Parallel Merge Sort",
         delayed { arr -> QuickSort(arr) } to "Quick Sort",
         delayed { arr -> ParQuickSort(arr) } to "Parallel Quick Sort"
 )

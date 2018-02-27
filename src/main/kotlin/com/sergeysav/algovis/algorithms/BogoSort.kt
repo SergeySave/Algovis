@@ -1,4 +1,8 @@
-package com.sergeysav.algovis
+package com.sergeysav.algovis.algorithms
+
+import com.sergeysav.algovis.ArrayAlgorithm
+import com.sergeysav.algovis.DelayedArray
+import com.sergeysav.algovis.randomInt
 
 /**
  * @author sergeys

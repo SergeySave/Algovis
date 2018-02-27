@@ -1,5 +1,8 @@
-package com.sergeysav.algovis
+package com.sergeysav.algovis.algorithms
 
+import com.sergeysav.algovis.BufferArrayAlgorithm
+import com.sergeysav.algovis.CountMap
+import com.sergeysav.algovis.DelayedArray
 import kotlinx.coroutines.experimental.launch
 
 /**

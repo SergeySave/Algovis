@@ -1,4 +1,7 @@
-package com.sergeysav.algovis
+package com.sergeysav.algovis.algorithms
+
+import com.sergeysav.algovis.BufferArrayAlgorithm
+import com.sergeysav.algovis.DelayedArray
 
 /**
  * @author sergeys

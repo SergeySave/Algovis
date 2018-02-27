@@ -2,8 +2,6 @@
 
 package com.sergeysav.algovis
 
-import com.sergeysav.algovis.algorithms.algorithms
-import com.sergeysav.algovis.conditions.conditions
 import kotlinx.coroutines.experimental.launch
 import javax.swing.ButtonGroup
 import javax.swing.JFrame
