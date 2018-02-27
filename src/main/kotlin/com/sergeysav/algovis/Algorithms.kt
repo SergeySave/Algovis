@@ -15,9 +15,7 @@ val algorithms = mapOf(
         delayed { arr -> BogoSort(arr) } to "Bogo Sort",
         delayed { arr -> BubbleSort(arr) } to "Bubble Sort",
         delayed { arr -> MergeSort(arr) } to "Merge Sort",
-        delayed { arr ->
-            ParMergeSort(arr)
-        } to "Parallel Merge Sort",
+        delayed { arr -> ParMergeSort(arr) } to "Parallel Merge Sort",
         delayed { arr -> QuickSort(arr) } to "Quick Sort",
         delayed { arr -> ParQuickSort(arr) } to "Parallel Quick Sort"
 )

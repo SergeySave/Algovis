@@ -3,12 +3,19 @@
 package com.sergeysav.algovis
 
 import kotlinx.coroutines.experimental.launch
+import java.awt.event.WindowAdapter
+import java.awt.event.WindowEvent
 import javax.swing.ButtonGroup
+import javax.swing.JDialog
 import javax.swing.JFrame
+import javax.swing.JLabel
 import javax.swing.JMenu
 import javax.swing.JMenuBar
 import javax.swing.JMenuItem
+import javax.swing.JPanel
 import javax.swing.JRadioButtonMenuItem
+import javax.swing.JSpinner
+import javax.swing.SpinnerNumberModel
 import javax.swing.WindowConstants
 
 /**
@@ -29,11 +36,37 @@ fun main(args: Array<String>) {
     
     jFrame.jMenuBar = jMenuBar
     
+    var dataSize = 100
+    lateinit var dataSizeMenu: JMenuItem
+    
+    fun createDialog() {
+        val jDialog = JDialog(jFrame)
+        
+        val jSpinner = JSpinner(SpinnerNumberModel(dataSize, 1, 1 shl 15, 1))
+        
+        jDialog.addWindowListener(object: WindowAdapter() {
+            override fun windowClosing(e: WindowEvent?) {
+                jSpinner.commitEdit()
+                dataSize = jSpinner.value as Int
+                dataSizeMenu.text = "Data Size: $dataSize"
+            }
+        })
+        val jPanel = JPanel()
+        
+        jPanel.add(JLabel("Data Size"))
+        jPanel.add(jSpinner)
+        
+        jDialog.add(jPanel)
+        
+        jDialog.pack()
+        jDialog.isVisible = true
+    }
+
     jMenuBar.apply {
         add(JMenu("Simulation").apply {
             add(JMenuItem("Start").apply {
                 addActionListener {
-                    val algorithm = generator(condition(1000))
+                    val algorithm = generator(condition(dataSize))
                     drawPanel.algorithm = algorithm
                     drawPanel.job?.cancel()
                     drawPanel.job = launch { algorithm.run(::isActive) }
@@ -72,6 +105,12 @@ fun main(args: Array<String>) {
                             doClick()
                         }
                     })
+                }
+            })
+            add(JMenuItem("Data Size: $dataSize").apply {
+                dataSizeMenu = this
+                addActionListener {
+                    createDialog()
                 }
             })
         })
