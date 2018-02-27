@@ -1,13 +1,10 @@
 package com.sergeysav.algovis
 
 import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Graphics2D
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseEvent
-import java.util.Random
+import javax.swing.JMenuBar
 import javax.swing.JPanel
 
 /**
@@ -15,29 +12,21 @@ import javax.swing.JPanel
  *
  * @constructor Creates a new DrawPanel
  */
-class DrawPanel: JPanel() {
+class DrawPanel(private val jMenuBar: JMenuBar): JPanel() {
     
-    var array: Array<Int> = arrayOf()
-    var algorithm: Algorithm<Int> = NullAlgorithm()
-    var maxValue = 2
-    var uuids = algorithm.getUUIDs()
+    var algorithm: Algorithm<*> = NullAlgorithm<Int>()
     var job: Job? = null
-    val rand = Random()
     val drawer: Drawer = Drawer(false)
     
-    init {
-        addMouseListener(object: MouseAdapter() {
-            override fun mouseReleased(e: MouseEvent?) {
-                job?.cancel()
-                job = launch {
-                    array = (0 .. 999).toList().shuffled().toTypedArray()
-                    algorithm = MergeSort(DelayedArray(array, 5, 5))
-                    maxValue = array.max()!! + 2
-                    uuids = algorithm.getUUIDs()
-                    algorithm.run()
-                }
-            }
-        })
+    val generators = arrayOf(
+            arrayGenerator { arr -> MergeSort(arr) },
+            arrayGenerator { arr -> ParMergeSort(arr) }
+    )
+    
+    private inline fun arrayGenerator(crossinline constructor: (DelayedArray<Int>) -> Algorithm<Int>) = { size: Int ->
+        val array = (0 until size).toList().shuffled().toTypedArray()
+        algorithm = constructor(DelayedArray(array, 1, 1))
+        algorithm
     }
     
     override fun paint(g1: Graphics) {
@@ -45,14 +34,13 @@ class DrawPanel: JPanel() {
         
         drawer.rWidth = width
         drawer.rHeight = height
+        drawer.tDown = jMenuBar.height.toDouble()
         drawer.g = g
         
         g.color = Color.BLACK
         g.fillRect(0, 0, width, height)
         g.color = Color.WHITE
-        
-        if (uuids.size > 0) {
-            algorithm.doDraw(drawer)
-        }
+    
+        algorithm.doDraw(drawer)
     }
 }

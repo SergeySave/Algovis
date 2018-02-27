@@ -7,7 +7,7 @@ package com.sergeysav.algovis
  */
 abstract class BufferArrayAlgorithm(val array: DelayedArray<Int>): Algorithm<Int>() {
     
-    protected val buffer = DelayedArray(Array(array.size) { 0 }, array.getTime, array.setTime)
+    protected val buffer = DelayedArray(Array(array.size) { -1 }, array.getTime, array.setTime)
     val maxValue = (array.baseArray.max() ?: 0) + 2
     
     override fun getUUIDs(): List<Int> = array.baseArray.indices.toList()
@@ -17,6 +17,8 @@ abstract class BufferArrayAlgorithm(val array: DelayedArray<Int>): Algorithm<Int
     override fun doDraw(drawer: Drawer) {
         drawer.width = array.size
         drawer.height = maxValue * 2
+    
+        drawer.beginDraw()
         
         for (i in 0 until array.baseArray.size) {
             drawer.fill(getSelection(i), i, maxValue * 2 - array.baseArray[i] - 1, 1, array.baseArray[i] + 1)
@@ -30,5 +32,9 @@ abstract class BufferArrayAlgorithm(val array: DelayedArray<Int>): Algorithm<Int
         val temp = array.get(i1)
         array.set(i1, array.get(i2))
         array.set(i2, temp)
+    }
+    
+    protected suspend fun clearBuffer(index: Int) {
+        buffer.set(index, -1)
     }
 }

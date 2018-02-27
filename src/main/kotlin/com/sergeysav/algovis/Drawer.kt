@@ -8,5 +8,8 @@ package com.sergeysav.algovis
 expect class Drawer {
     var width: Int
     var height: Int
+    
+    fun beginDraw()
+    
     fun fill(selection: Int, x: Int, y: Int, w: Int, h: Int)
 }

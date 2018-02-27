@@ -78,7 +78,7 @@ class ParMergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
             buffers.add(i)
             copys.add(i)
             array.set(i, buffer.get(i))
-            buffer.set(i, 0)
+            clearBuffer(i)
             copys.remove(i)
             buffers.remove(i)
         }

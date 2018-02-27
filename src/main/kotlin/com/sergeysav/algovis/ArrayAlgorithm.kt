@@ -15,6 +15,8 @@ abstract class ArrayAlgorithm(val array: DelayedArray<Int>): Algorithm<Int>() {
     override fun doDraw(drawer: Drawer) {
         drawer.width = array.size
         drawer.height = maxValue
+    
+        drawer.beginDraw()
         
         for (i in 0 until array.baseArray.size) {
             drawer.fill(getSelection(i), i, maxValue - array.baseArray[i] - 1, 1, array.baseArray[i] + 1)
