@@ -36,7 +36,12 @@ fun main(args: Array<String>) {
                     val algorithm = generator(condition(1000))
                     drawPanel.algorithm = algorithm
                     drawPanel.job?.cancel()
-                    drawPanel.job = launch { algorithm.run() }
+                    drawPanel.job = launch { algorithm.run(::isActive) }
+                }
+            })
+            add(JMenuItem("Stop").apply {
+                addActionListener {
+                    drawPanel.job?.cancel()
                 }
             })
         })

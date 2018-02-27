@@ -21,7 +21,7 @@ class BogoSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
     }
     
     override suspend fun execute() {
-        while (notSorted()) {
+        while (isActive() && notSorted()) {
             shuffle()
         }
     }
@@ -29,7 +29,7 @@ class BogoSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
     private suspend fun notSorted(): Boolean {
         for (i in 1 until array.size) {
             index = i
-            if (array.get(i - 1) >= array.get(i)) {
+            if (array.get(i - 1) >= array.get(i) || !isActive()) {
                 index = -1
                 return true
             }
@@ -44,6 +44,10 @@ class BogoSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
             val other = randomInt(0, array.size - 1)
             index2 = other
             swap(i, other)
+    
+            if (!isActive()) {
+                return
+            }
         }
         index2 = -1
     }

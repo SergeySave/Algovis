@@ -34,8 +34,8 @@ class ParQuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
     private suspend fun quickSort(_l: Int, _h: Int) {
         var l = _l
         var h = _h
-        
-        if (l >= h) return
+    
+        if (l >= h || !isActive()) return
         
         counts.add(l)
         counts.add(h)
@@ -46,15 +46,18 @@ class ParQuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
         
         val oldLow = l
         val oldHigh = h
-        
-        while (l < h) {
-            while (array.get(l) < pivotVal) {
+    
+        while (l < h && isActive()) {
+            while (array.get(l) < pivotVal && isActive()) {
                 counts.remove(l)
                 counts.add(++l)
             }
-            while (array.get(h) > pivotVal) {
+            while (array.get(h) > pivotVal && isActive()) {
                 counts.remove(h)
                 counts.add(--h)
+            }
+            if (!isActive()) {
+                return
             }
             if (l < h) {
                 val swapPivotIdx = if (pivotIdx == l) 1 else if (pivotIdx == h) -1 else 0

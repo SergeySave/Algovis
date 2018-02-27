@@ -42,7 +42,7 @@ class MergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
     }
     
     private suspend fun sort(start: Int, end: Int) {
-        if (end - start <= 1) return
+        if (end - start <= 1 || !isActive()) return
         
         val mid = (start + end) / 2
         sort(start, mid)
@@ -60,6 +60,10 @@ class MergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
             } else {
                 buffer.set(i, array.get(rcopy++))
             }
+    
+            if (!isActive()) {
+                return
+            }
         }
         
         lcopy = -1
@@ -71,6 +75,10 @@ class MergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
             lcopy = i
             array.set(i, buffer.get(i))
             clearBuffer(i)
+    
+            if (!isActive()) {
+                return
+            }
         }
         lcopy = -1
         buffer1 = -1

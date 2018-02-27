@@ -37,6 +37,10 @@ class BubbleSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
                     swap(i, i + 1)
                     actionTaken = true
                 }
+    
+                if (!isActive()) {
+                    return
+                }
             }
             
             sorted = end

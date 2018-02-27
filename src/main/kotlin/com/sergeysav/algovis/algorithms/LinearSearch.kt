@@ -24,7 +24,7 @@ class LinearSearch(array: DelayedArray<Int>, val searchFor: Int): ArrayAlgorithm
     override suspend fun execute() {
         for (i in 0 until array.size) {
             selected = i
-            if (array.get(i) == searchFor) {
+            if (array.get(i) == searchFor || !isActive()) {
                 return
             }
         }

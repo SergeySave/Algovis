@@ -72,6 +72,10 @@ class ParMergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
                 copys.remove(rcopy)
             }
             buffers.remove(i)
+    
+            if (!isActive()) {
+                return
+            }
         }
         
         copys.remove(lcopy)
@@ -84,6 +88,10 @@ class ParMergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
             clearBuffer(i)
             copys.remove(i)
             buffers.remove(i)
+    
+            if (!isActive()) {
+                return
+            }
         }
         
         sides.remove(left)

@@ -36,18 +36,21 @@ class QuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
         var h = _h
         low = l
         high = h
-        
-        if (low >= high) return
+    
+        if (low >= high || !isActive()) return
         
         val pivotVal = middleValue(low, high, (high + low) / 2) { x -> array.get(x) }
         pivotIdx = pivotVal
         
         val oldLow = low
         val oldHigh = high
-        
-        while (low < high) {
-            while (array.get(low) < pivotVal) low++
-            while (array.get(high) > pivotVal) high--
+    
+        while (low < high && isActive()) {
+            while (array.get(low) < pivotVal && isActive()) low++
+            while (array.get(high) > pivotVal && isActive()) high--
+            if (!isActive()) {
+                return
+            }
             if (low < high) {
                 val swapPivotIdx = if (pivotIdx == low) 1 else if (pivotIdx == high) -1 else 0
                 swap(low, high)
