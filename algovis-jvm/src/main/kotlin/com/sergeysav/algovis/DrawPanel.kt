@@ -18,17 +18,6 @@ class DrawPanel(private val jMenuBar: JMenuBar): JPanel() {
     var job: Job? = null
     val drawer: Drawer = Drawer(false)
     
-    val generators = arrayOf(
-            arrayGenerator { arr -> MergeSort(arr) },
-            arrayGenerator { arr -> ParMergeSort(arr) }
-    )
-    
-    private inline fun arrayGenerator(crossinline constructor: (DelayedArray<Int>) -> Algorithm<Int>) = { size: Int ->
-        val array = (0 until size).toList().shuffled().toTypedArray()
-        algorithm = constructor(DelayedArray(array, 1, 1))
-        algorithm
-    }
-    
     override fun paint(g1: Graphics) {
         val g = g1 as Graphics2D
         

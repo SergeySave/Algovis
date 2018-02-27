@@ -67,6 +67,7 @@ class MergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
             buffer1 = i
             lcopy = i
             array.set(i, buffer.get(i))
+            clearBuffer(i)
         }
         lcopy = -1
         buffer1 = -1
