@@ -1,13 +1,12 @@
 package com.sergeysav.algovis
 
-import kotlinx.coroutines.experimental.delay
-
 /**
  * @author sergeys
  *
  * @constructor Creates a new DelayedArray
  */
-class DelayedArray<T>(val baseArray: Array<T>, val getTime: Int, val setTime: Int) {
+class DelayedArray<T>(val baseArray: Array<T>, val getTime: Double, val setTime: Double) {
+    val delayer = Delayer()
     
     /**
      * Returns the array element at the specified [index]. This method can be called using the
@@ -16,8 +15,8 @@ class DelayedArray<T>(val baseArray: Array<T>, val getTime: Int, val setTime: In
      * value = arr[index]
      * ```
      */
-    public suspend fun get(index: Int): T {
-        delay(getTime)
+    suspend fun get(index: Int): T {
+        delayer.doDelay(getTime)
         return baseArray.get(index)
     }
     
@@ -28,13 +27,13 @@ class DelayedArray<T>(val baseArray: Array<T>, val getTime: Int, val setTime: In
      * arr[index] = value
      * ```
      */
-    public suspend fun set(index: Int, value: T): Unit {
-        delay(setTime)
+    suspend fun set(index: Int, value: T) {
+        delayer.doDelay(setTime)
         baseArray.set(index, value)
     }
     
     /**
      * Returns the number of elements in the array.
      */
-    public val size: Int = baseArray.size
+    val size: Int = baseArray.size
 }

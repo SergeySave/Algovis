@@ -31,7 +31,7 @@ fun main(args: Array<String>) {
     val algorithms = algorithms
     val conditions = conditions
     
-    var generator: (Array<Int>) -> Algorithm<*> = { i -> NullAlgorithm<Int>() }
+    var generator: (Array<Int>, Double) -> Algorithm<*> = { _, _ -> NullAlgorithm<Int>() }
     var condition: (Int) -> Array<Int> = conditions.keys.first()
     
     jFrame.jMenuBar = jMenuBar
@@ -66,7 +66,7 @@ fun main(args: Array<String>) {
         add(JMenu("Simulation").apply {
             add(JMenuItem("Start").apply {
                 addActionListener {
-                    val algorithm = generator(condition(dataSize))
+                    val algorithm = generator(condition(dataSize), 0.1)
                     drawPanel.algorithm = algorithm
                     drawPanel.job?.cancel()
                     drawPanel.job = launch { algorithm.run(::isActive) }

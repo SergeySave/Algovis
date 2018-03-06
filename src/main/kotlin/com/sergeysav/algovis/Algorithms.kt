@@ -20,6 +20,7 @@ val algorithms = mapOf(
         delayed { arr -> ParQuickSort(arr) } to "Parallel Quick Sort"
 )
 
-private inline fun delayed(crossinline constructor: (DelayedArray<Int>) -> Algorithm<Int>) = { arr: Array<Int> ->
-    constructor(DelayedArray(arr, 1, 1))
+private inline fun delayed(crossinline constructor: (DelayedArray<Int>) -> Algorithm<Int>) =
+        { arr: Array<Int>, delayMillis: Double ->
+            constructor(DelayedArray(arr, delayMillis, delayMillis))
 }
