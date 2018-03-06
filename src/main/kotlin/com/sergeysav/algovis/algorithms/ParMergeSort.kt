@@ -1,7 +1,6 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.BufferArrayAlgorithm
-import com.sergeysav.algovis.CountMap
 import com.sergeysav.algovis.DelayedArray
 import kotlinx.coroutines.experimental.launch
 
@@ -12,89 +11,132 @@ import kotlinx.coroutines.experimental.launch
  */
 class ParMergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
     
-    private var sides = CountMap<Int>()
-    private var copys = CountMap<Int>()
-    private var buffers = CountMap<Int>()
+    private var sort: Sort? = null
     
     override fun getSelection(uuid: Int): Int {
-        if (sides.contains(uuid)) {
-            return 2
-        } else if (copys.contains(uuid)) {
-            return 1
+        sort?.run {
+            val sVal = getSelection(uuid)
+            if (sVal != 0) return sVal
         }
+    
         return 0
     }
     
     override fun getBufferSelection(index: Int): Int {
-        if (buffers.contains(index)) {
-            return 1
+        sort?.run {
+            val sVal = getBufferSelection(index)
+            if (sVal != 0) return sVal
         }
+    
         return 0
     }
     
     
     override suspend fun execute() {
-        sort(0, array.size)
-        sides.clear()
-        copys.clear()
-        buffers.clear()
+        Sort(0, array.size).apply {
+            sort = this
+            run()
+            sort = null
+        }
     }
     
-    private suspend fun sort(start: Int, end: Int) {
-        if (end - start <= 1) return
+    private inner class Sort(val start: Int, val end: Int) {
         
-        val mid = (start + end) / 2
-        val job = launch {
-            sort(start, mid)
-        }
-        sort(mid, end)
+        var left = -1
+        var right = -1
         
-        job.join()
+        var lcopy = -1
+        var rcopy = -1
         
-        val left = start
-        sides.add(left)
-        val right = end - 1
-        sides.add(right)
+        var bufferIdx = -1
         
-        var lcopy = start
-        copys.add(lcopy)
-        var rcopy = mid
-        copys.add(rcopy)
-        for (i in start until end) {
-            buffers.add(i - 1)
-            if (rcopy >= end || lcopy < mid && array.get(lcopy) <= array.get(rcopy)) {
-                copys.remove(lcopy)
-                buffer.set(i, array.get(lcopy++))
-                copys.add(lcopy)
-            } else {
-                copys.remove(rcopy)
-                buffer.set(i, array.get(rcopy++))
-                copys.add(rcopy)
+        var sort1: Sort? = null
+        var sort2: Sort? = null
+        
+        fun getSelection(uuid: Int): Int {
+            if (uuid == left || uuid == right) {
+                return 2
             }
-            buffers.remove(i - 1)
-    
-            if (!isActive()) {
-                return
+            if (uuid == lcopy || uuid == rcopy) {
+                return 1
             }
+            sort1?.run {
+                val sVal = getSelection(uuid)
+                if (sVal != 0) return sVal
+            }
+            sort2?.run {
+                val sVal = getSelection(uuid)
+                if (sVal != 0) return sVal
+            }
+            return 0
         }
         
-        copys.remove(lcopy)
-        copys.remove(rcopy)
-        
-        for (i in start until end) {
-            buffers.add(i)
-            copys.add(i)
-            array.set(i, buffer.get(i))
-            clearBuffer(i)
-            copys.remove(i)
-            buffers.remove(i)
-    
-            if (!isActive()) {
-                return
+        fun getBufferSelection(index: Int): Int {
+            if (index == bufferIdx) {
+                return 1
             }
+            sort1?.run {
+                val sVal = getBufferSelection(index)
+                if (sVal != 0) return sVal
+            }
+            sort2?.run {
+                val sVal = getBufferSelection(index)
+                if (sVal != 0) return sVal
+            }
+            return 0
         }
         
-        sides.remove(left)
-        sides.remove(right)
+        suspend fun run() {
+            if (end - start <= 1) return
+            
+            val mid = (start + end) / 2
+            val job = launch {
+                Sort(start, mid).apply {
+                    this@Sort.sort1 = this
+                    run()
+                    this@Sort.sort1 = null
+                }
+            }
+            Sort(mid, end).apply {
+                this@Sort.sort2 = this
+                run()
+                this@Sort.sort2 = null
+            }
+            
+            job.join()
+            
+            left = start
+            right = end - 1
+            
+            lcopy = start
+            rcopy = mid
+            
+            for (i in start until end) {
+                bufferIdx = i - 1
+                if (rcopy >= end || lcopy < mid && array.get(lcopy) <= array.get(rcopy)) {
+                    buffer.set(i, array.get(lcopy++))
+                } else {
+                    buffer.set(i, array.get(rcopy++))
+                }
+                
+                if (!isActive()) {
+                    return
+                }
+            }
+            
+            lcopy = -1
+            rcopy = -1
+            
+            for (i in start until end) {
+                bufferIdx = i
+                lcopy = i
+                array.set(i, buffer.get(i))
+                clearBuffer(i)
+                
+                if (!isActive()) {
+                    return
+                }
+            }
+        }
     }
 }
