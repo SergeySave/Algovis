@@ -34,15 +34,18 @@ fun main(args: Array<String>) {
     var generator: (Array<Int>, Double) -> Algorithm<*> = { _, _ -> NullAlgorithm<Int>() }
     var condition: (Int) -> Array<Int> = conditions.keys.first()
     
+    var operationTime = 5.0
+    
     jFrame.jMenuBar = jMenuBar
     
     var dataSize = 100
     lateinit var dataSizeMenu: JMenuItem
+    lateinit var opTimeMenu: JMenuItem
     
-    fun createDialog() {
+    fun createDataSizeDialog() {
         val jDialog = JDialog(jFrame)
         
-        val jSpinner = JSpinner(SpinnerNumberModel(dataSize, 1, 1 shl 15, 1))
+        val jSpinner = JSpinner(SpinnerNumberModel(dataSize, 1, 1 shl 20, 1))
         
         jDialog.addWindowListener(object: WindowAdapter() {
             override fun windowClosing(e: WindowEvent?) {
@@ -61,12 +64,35 @@ fun main(args: Array<String>) {
         jDialog.pack()
         jDialog.isVisible = true
     }
+    
+    fun createOpTimeDialog() {
+        val jDialog = JDialog(jFrame)
+        
+        val jSpinner = JSpinner(SpinnerNumberModel(operationTime, 0.0, (1 shl 20).toDouble(), 0.1))
+        
+        jDialog.addWindowListener(object: WindowAdapter() {
+            override fun windowClosing(e: WindowEvent?) {
+                jSpinner.commitEdit()
+                operationTime = jSpinner.value as Double
+                opTimeMenu.text = "Operation Time: $operationTime ms"
+            }
+        })
+        val jPanel = JPanel()
+        
+        jPanel.add(JLabel("Operation Time (ms)"))
+        jPanel.add(jSpinner)
+        
+        jDialog.add(jPanel)
+        
+        jDialog.pack()
+        jDialog.isVisible = true
+    }
 
     jMenuBar.apply {
         add(JMenu("Simulation").apply {
             add(JMenuItem("Start").apply {
                 addActionListener {
-                    val algorithm = generator(condition(dataSize), 0.1)
+                    val algorithm = generator(condition(dataSize), operationTime)
                     drawPanel.algorithm = algorithm
                     drawPanel.job?.cancel()
                     drawPanel.job = launch { algorithm.run(::isActive) }
@@ -110,7 +136,13 @@ fun main(args: Array<String>) {
             add(JMenuItem("Data Size: $dataSize").apply {
                 dataSizeMenu = this
                 addActionListener {
-                    createDialog()
+                    createDataSizeDialog()
+                }
+            })
+            add(JMenuItem("Operation Time: $operationTime ms").apply {
+                opTimeMenu = this
+                addActionListener {
+                    createOpTimeDialog()
                 }
             })
         })
