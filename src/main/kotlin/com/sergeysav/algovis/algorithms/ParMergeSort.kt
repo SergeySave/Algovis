@@ -61,7 +61,7 @@ class ParMergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
         var rcopy = mid
         copys.add(rcopy)
         for (i in start until end) {
-            buffers.add(i)
+            buffers.add(i - 1)
             if (rcopy >= end || lcopy < mid && array.get(lcopy) <= array.get(rcopy)) {
                 copys.remove(lcopy)
                 buffer.set(i, array.get(lcopy++))
@@ -69,9 +69,9 @@ class ParMergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
             } else {
                 copys.remove(rcopy)
                 buffer.set(i, array.get(rcopy++))
-                copys.remove(rcopy)
+                copys.add(rcopy)
             }
-            buffers.remove(i)
+            buffers.remove(i - 1)
     
             if (!isActive()) {
                 return

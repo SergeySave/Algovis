@@ -8,7 +8,7 @@ package com.sergeysav.algovis
 class CountMap<T> {
     private val map = mutableMapOf<T, Int>()
     
-    fun add(element: T) = {
+    fun add(element: T) {
         map[element] = (map[element] ?: 0) + 1
     }
     

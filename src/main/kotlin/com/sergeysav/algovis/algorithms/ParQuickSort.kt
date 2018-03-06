@@ -34,11 +34,12 @@ class ParQuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
     private suspend fun quickSort(_l: Int, _h: Int) {
         var low = _l
         var high = _h
-        counts.add(low)
-        counts.add(high)
     
         if (low >= high || !isActive()) return
     
+        counts.add(low)
+        counts.add(high)
+        
         var pivotIdx = middleValue(low, high, (high + low) / 2) { x -> array.get(x) }
         pivots.add(pivotIdx)
         val pivotVal = array.get(pivotIdx)
@@ -48,12 +49,12 @@ class ParQuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
     
         while (low < high && isActive()) {
             while (array.get(low) < pivotVal && isActive()) {
-                counts.remove(low++)
-                counts.add(low)
+                counts.remove(low)
+                counts.add(++low)
             }
             while (array.get(high) > pivotVal && isActive()) {
-                counts.remove(high--)
-                counts.add(high)
+                counts.remove(high)
+                counts.add(--high)
             }
             if (!isActive()) {
                 return
@@ -71,17 +72,21 @@ class ParQuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
                     pivotIdx = low
                     pivots.add(pivotIdx)
                 }
-                counts.remove(low++)
-                counts.add(low)
-                counts.remove(high--)
-                counts.add(high)
+                counts.remove(low)
+                counts.add(++low)
+                counts.remove(high)
+                counts.add(--high)
             } else if (low == high) {
-                counts.remove(low++)
-                counts.add(low)
-                counts.remove(high--)
-                counts.add(high)
+                counts.remove(low)
+                counts.add(++low)
+                counts.remove(high)
+                counts.add(--high)
             }
         }
+    
+        counts.remove(low)
+        counts.remove(high)
+        pivots.remove(pivotIdx)
     
         val job = launch {
             quickSort(oldLow, high)
