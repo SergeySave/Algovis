@@ -12,10 +12,10 @@ class BubbleSort(array: ArrayStructure): ArrayAlgorithm(array) {
     private var selected: Int? = null
     private var sorted: Int = array.size
     
-    override fun getSelection(uuid: Int): Int {
-        if (selected == uuid) {
+    override fun getSelection(index: Int): Int {
+        if (selected == index) {
             return 1
-        } else if (uuid >= sorted) {
+        } else if (index >= sorted) {
             return 2
         }
         return 0
@@ -29,6 +29,7 @@ class BubbleSort(array: ArrayStructure): ArrayAlgorithm(array) {
             
             //Loop through the array from the beginning to the previous end value
             for (i in 0 until end) {
+                setVisited(i)
                 selected = i
                 //If the next value in the array is bigger
                 if (array.get(i) > array.get(i + 1)) {

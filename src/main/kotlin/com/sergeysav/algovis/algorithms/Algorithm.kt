@@ -26,8 +26,6 @@ abstract class Algorithm {
     protected var isActive: () -> Boolean = { true }
         private set
     
-    abstract fun getUUIDs(): List<Int>
-    
     abstract fun initDraw(drawer: Drawer)
     abstract fun doDraw(drawer: Drawer)
 }

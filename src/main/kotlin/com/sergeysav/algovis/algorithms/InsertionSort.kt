@@ -12,10 +12,10 @@ class InsertionSort(array: ArrayStructure): ArrayAlgorithm(array) {
     private var sel: Int = -1
     private var part: Int = -1
     
-    override fun getSelection(uuid: Int): Int {
-        if (sel == uuid) {
+    override fun getSelection(index: Int): Int {
+        if (sel == index) {
             return 1
-        } else if (uuid <= part) {
+        } else if (index <= part) {
             return 2
         }
         return 0
@@ -24,6 +24,7 @@ class InsertionSort(array: ArrayStructure): ArrayAlgorithm(array) {
     override suspend fun execute() {
         //Loop through the array
         for (i in 0 until array.size) {
+            setVisited(i)
             part = i
             sel = i
             // Once again it's a good idea to put 'Val' at the end of array members
@@ -31,6 +32,7 @@ class InsertionSort(array: ArrayStructure): ArrayAlgorithm(array) {
             // Start from one below the pivot location and continue downwards until the pivot
             //    is either correctly placed or is at the beginning of the array
             for (j in i - 1 downTo 0) {
+                setVisited(j + 1)
                 sel = j + 1
                 // Instead of finding the corret location and then shifting everything, it's easier
                 //    to just keep swapping the pivot down (sort of like bubble sort)

@@ -13,7 +13,7 @@ class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
     var index = -1
     var index2 = -1
     
-    override fun getSelection(uuid: Int): Int = if (index == uuid || index2 == uuid) {
+    override fun getSelection(index: Int): Int = if (this.index == index || index2 == index) {
         1
     } else {
         0
@@ -27,6 +27,7 @@ class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
     
     private suspend fun notSorted(): Boolean {
         for (i in 1 until array.size) {
+            setVisited(i)
             index = i
             if (array.get(i - 1) >= array.get(i) || !isActive()) {
                 index = -1
@@ -39,6 +40,7 @@ class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
     
     private suspend fun shuffle() {
         for (i in 0 until array.size) {
+            setVisited(i)
             index = i
             val other = randomInt(0, array.size - 1)
             index2 = other

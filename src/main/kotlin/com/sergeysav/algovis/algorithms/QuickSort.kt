@@ -14,10 +14,10 @@ class QuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
     private var high: Int = -1
     private var pivotIdx: Int = -1
     
-    override fun getSelection(uuid: Int): Int {
-        if (low == uuid || high == uuid) {
+    override fun getSelection(index: Int): Int {
+        if (low == index || high == index) {
             return 1
-        } else if (pivotIdx == uuid) {
+        } else if (pivotIdx == index) {
             return 2
         }
         return 0
@@ -45,8 +45,16 @@ class QuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
         val oldHigh = high
     
         while (low < high && isActive()) {
-            while (array.get(low) < pivotVal && isActive()) low++
-            while (array.get(high) > pivotVal && isActive()) high--
+            setVisited(low)
+            while (array.get(low) < pivotVal && isActive()) {
+                low++
+                setVisited(low)
+            }
+            setVisited(high)
+            while (array.get(high) > pivotVal && isActive()) {
+                high--
+                setVisited(high)
+            }
             if (!isActive()) {
                 return
             }
@@ -56,10 +64,14 @@ class QuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
                 if (swapPivotIdx == 1) pivotIdx = high
                 if (swapPivotIdx == -1) pivotIdx = low
                 low++
+                setVisited(low)
                 high--
+                setVisited(high)
             } else if (low == high) {
                 low++
+                setVisited(low)
                 high--
+                setVisited(high)
             }
         }
         

@@ -10,10 +10,16 @@ import com.sergeysav.algovis.structures.ArrayStructure
  */
 abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
-    val maxValue = (array.delayArray.baseArray.max() ?: 0) + 2
+    private val maxValue = (array.delayArray.baseArray.max() ?: 0) + 2
     
-    override fun getUUIDs(): List<Int> = array.delayArray.baseArray.indices.toList()
-    abstract fun getSelection(uuid: Int): Int
+    var visitedMain = mutableMapOf<Int, Int>()
+    var visitedEditing = mutableMapOf<Int, Int>()
+    
+    fun setVisited(index: Int, type: Int = 0) = synchronized(visitedMain) {
+        visitedMain[index] = type
+    }
+    
+    open fun getSelection(index: Int): Int = 0
     
     override fun initDraw(drawer: Drawer) {
         drawer.width = array.delayArray.size
@@ -23,6 +29,13 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     }
     
     override fun doDraw(drawer: Drawer) {
+    
+        val reading = visitedMain
+        synchronized(visitedMain) {
+            visitedMain = visitedEditing
+            visitedEditing = reading
+        }
+    
         for (i in 0 until array.delayArray.baseArray.size) {
             val selection = getSelection(i)
             if (selection != 0) {
@@ -30,6 +43,12 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
                             array.delayArray.baseArray[i] + 1)
             }
         }
+        for ((i, selection) in reading) {
+            drawer.fill(selection + 1, i, maxValue - array.delayArray.baseArray[i] - 1, 1,
+                        array.delayArray.baseArray[i] + 1)
+        }
+    
+        reading.clear()
     }
     
     protected suspend fun swap(i1: Int, i2: Int) {

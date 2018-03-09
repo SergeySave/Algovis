@@ -11,10 +11,10 @@ class LinearSearch(array: ArrayStructure, private val searchFor: Int): ArrayAlgo
     
     private var selected: Int? = null
     
-    override fun getSelection(uuid: Int): Int {
-        if (selected == uuid) {
+    override fun getSelection(index: Int): Int {
+        if (selected == index) {
             return 1
-        } else if (array.delayArray.baseArray[uuid] == searchFor) {
+        } else if (array.delayArray.baseArray[index] == searchFor) {
             return 2
         }
         return 0
@@ -22,6 +22,7 @@ class LinearSearch(array: ArrayStructure, private val searchFor: Int): ArrayAlgo
     
     override suspend fun execute() {
         for (i in 0 until array.size) {
+            setVisited(i)
             selected = i
             if (array.get(i) == searchFor || !isActive()) {
                 return

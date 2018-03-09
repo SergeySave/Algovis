@@ -12,9 +12,9 @@ class ParMergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
     
     private var sort: Sort? = null
     
-    override fun getSelection(uuid: Int): Int {
+    override fun getSelection(index: Int): Int {
         sort?.run {
-            val sVal = getSelection(uuid)
+            val sVal = getSelection(index)
             if (sVal != 0) return sVal
         }
     

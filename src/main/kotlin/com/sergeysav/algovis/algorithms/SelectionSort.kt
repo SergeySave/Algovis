@@ -13,10 +13,10 @@ class SelectionSort(array: ArrayStructure): ArrayAlgorithm(array) {
     private var min: Int = -1
     private var selected: Int = -1
     
-    override fun getSelection(uuid: Int): Int {
-        if (uuid == min || uuid == selected) {
+    override fun getSelection(index: Int): Int {
+        if (index == min || index == selected) {
             return 1
-        } else if (uuid <= sortedPartition) {
+        } else if (index <= sortedPartition) {
             return 2
         }
         return 0
@@ -26,10 +26,12 @@ class SelectionSort(array: ArrayStructure): ArrayAlgorithm(array) {
         //Loop through the array
         for (i in 0 until array.size - 1) {
             //The index of the current smallest object found
+            setVisited(i)
             min = i
             selected = i
             //Loop through the array
             for (i2 in i + 1 until array.size) {
+                setVisited(i2)
                 selected = i2
                 //Get the smallest object in the array
                 if (array.get(i2) < array.get(min)) {

@@ -13,9 +13,9 @@ class ParQuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
     
     private var sort: Sort? = null
     
-    override fun getSelection(uuid: Int): Int {
+    override fun getSelection(index: Int): Int {
         sort?.run {
-            return getSelection(uuid)
+            return getSelection(index)
         }
     
         return 0
