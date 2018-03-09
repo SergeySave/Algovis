@@ -1,7 +1,7 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.BufferArrayAlgorithm
-import com.sergeysav.algovis.DelayedArray
+import com.sergeysav.algovis.structures.ArrayStructure
 import kotlinx.coroutines.experimental.launch
 
 /**
@@ -9,7 +9,7 @@ import kotlinx.coroutines.experimental.launch
  *
  * @constructor Creates a new ParMergeSort
  */
-class ParMergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
+class ParMergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
     
     private var sort: Sort? = null
     

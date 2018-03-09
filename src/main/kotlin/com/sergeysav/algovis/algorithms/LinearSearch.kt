@@ -1,21 +1,21 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.ArrayAlgorithm
-import com.sergeysav.algovis.DelayedArray
+import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
  * @author sergeys
  *
  * @constructor Creates a new LinearSearch
  */
-class LinearSearch(array: DelayedArray<Int>, val searchFor: Int): ArrayAlgorithm(array) {
+class LinearSearch(array: ArrayStructure, private val searchFor: Int): ArrayAlgorithm(array) {
     
     private var selected: Int? = null
     
     override fun getSelection(uuid: Int): Int {
         if (selected == uuid) {
             return 1
-        } else if (array.baseArray[uuid] == searchFor) {
+        } else if (array.delayArray.baseArray[uuid] == searchFor) {
             return 2
         }
         return 0

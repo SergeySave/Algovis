@@ -1,15 +1,15 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.ArrayAlgorithm
-import com.sergeysav.algovis.DelayedArray
 import com.sergeysav.algovis.middleValue
+import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
  * @author sergeys
  *
  * @constructor Creates a new QuickSort
  */
-class QuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
+class QuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
     
     private var low: Int = -1
     private var high: Int = -1

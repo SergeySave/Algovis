@@ -1,29 +1,37 @@
 package com.sergeysav.algovis
 
+import com.sergeysav.algovis.structures.ArrayStructure
+
 /**
  * @author sergeys
  *
  * @constructor Creates a new ArrayAlgorithm
  */
-abstract class BufferArrayAlgorithm(val array: DelayedArray<Int>): Algorithm<Int>() {
+abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
-    protected val buffer = DelayedArray(Array(array.size) { -1 }, array.getTime, array.setTime)
-    val maxValue = (array.baseArray.max() ?: 0) + 2
+    protected val buffer = DelayedArray(Array(array.delayArray.size) { -1 }, array.delayMillis, array.delayMillis)
+    val maxValue = (array.delayArray.baseArray.max() ?: 0) + 2
     
-    override fun getUUIDs(): List<Int> = array.baseArray.indices.toList()
+    override fun getUUIDs(): List<Int> = array.delayArray.baseArray.indices.toList()
     abstract fun getSelection(uuid: Int): Int
     abstract fun getBufferSelection(index: Int): Int
     
-    override fun doDraw(drawer: Drawer) {
-        drawer.width = array.size
+    override fun initDraw(drawer: Drawer) {
+        drawer.width = array.delayArray.size
         drawer.height = maxValue * 2
     
         drawer.beginDraw()
-        
-        for (i in 0 until array.baseArray.size) {
-            drawer.fill(getSelection(i), i, maxValue * 2 - array.baseArray[i] - 1, 1, array.baseArray[i] + 1)
+    }
+    
+    override fun doDraw(drawer: Drawer) {
+        for (i in 0 until array.delayArray.baseArray.size) {
+            val selection = getSelection(i)
+            if (selection != 0) {
+                drawer.fill(selection, i, maxValue - array.delayArray.baseArray[i] - 1, 1,
+                            array.delayArray.baseArray[i] + 1)
+            }
         }
-        for (i in 0 until array.baseArray.size) {
+        for (i in 0 until array.delayArray.baseArray.size) {
             drawer.fill(getBufferSelection(i), i, maxValue - buffer.baseArray[i] - 1, 1, buffer.baseArray[i] + 1)
         }
     }

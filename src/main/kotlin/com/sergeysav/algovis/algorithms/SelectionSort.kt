@@ -1,14 +1,14 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.ArrayAlgorithm
-import com.sergeysav.algovis.DelayedArray
+import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
  * @author sergeys
  *
  * @constructor Creates a new BubbleSort
  */
-class SelectionSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
+class SelectionSort(array: ArrayStructure): ArrayAlgorithm(array) {
     
     private var sortedPartition: Int = -1
     private var min: Int = -1

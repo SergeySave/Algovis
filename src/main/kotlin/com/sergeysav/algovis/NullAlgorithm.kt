@@ -5,10 +5,12 @@ package com.sergeysav.algovis
  *
  * @constructor Creates a new NullAlgorithm
  */
-class NullAlgorithm<T>: Algorithm<T>() {
-    override suspend fun execute() {}
+object NullAlgorithm: Algorithm() {
+    
+    override suspend fun execute() = Unit
     
     override fun getUUIDs(): List<Int> = emptyList()
     
-    override fun doDraw(drawer: Drawer) {}
+    override fun initDraw(drawer: Drawer) = Unit
+    override fun doDraw(drawer: Drawer) = Unit
 }

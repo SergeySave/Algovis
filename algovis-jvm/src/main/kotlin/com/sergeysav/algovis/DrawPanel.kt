@@ -1,11 +1,12 @@
 package com.sergeysav.algovis
 
+import com.sergeysav.algovis.structures.NullStructure
+import com.sergeysav.algovis.structures.Structure
 import kotlinx.coroutines.experimental.Job
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Graphics2D
 import javax.swing.JMenuBar
-import javax.swing.JMenuItem
 import javax.swing.JPanel
 
 /**
@@ -15,11 +16,13 @@ import javax.swing.JPanel
  */
 class DrawPanel(private val jMenuBar: JMenuBar): JPanel() {
     
-    var algorithm: Algorithm<*> = NullAlgorithm<Int>()
-    var job: Job? = null
-    val drawer: Drawer = Drawer(false)
+    var structure: Structure = NullStructure
+    var algorithm: Algorithm? = null
+    var completionCallback: (Boolean?) -> Unit = {}
     
-    lateinit var statusItem: JMenuItem
+    var job: Job? = null
+    var lastActive: Boolean? = null
+    val drawer: Drawer = Drawer(false)
     
     override fun paint(g1: Graphics) {
         val g = g1 as Graphics2D
@@ -33,16 +36,15 @@ class DrawPanel(private val jMenuBar: JMenuBar): JPanel() {
         g.fillRect(0, 0, width, height)
         g.color = Color.WHITE
     
-        algorithm.doDraw(drawer)
+        algorithm?.initDraw(drawer) ?: run {
+            structure.initDraw(drawer)
+        }
+        structure.draw(drawer)
+        algorithm?.doDraw(drawer)
     
-        if (job?.isActive == true) {
-            statusItem.text = "Status: Running"
-        } else {
-            if (algorithm.complete) {
-                statusItem.text = "Status: Complete"
-            } else {
-                statusItem.text = "Status: Cancelled"
-            }
+        if (job?.isActive != lastActive) {
+            lastActive = job?.isActive
+            completionCallback(lastActive)
         }
     }
     

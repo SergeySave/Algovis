@@ -1,15 +1,15 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.ArrayAlgorithm
-import com.sergeysav.algovis.DelayedArray
 import com.sergeysav.algovis.randomInt
+import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
  * @author sergeys
  *
  * @constructor Creates a new BogoSort
  */
-class BogoSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
+class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
     
     var index = -1
     var index2 = -1

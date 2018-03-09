@@ -1,8 +1,8 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.ArrayAlgorithm
-import com.sergeysav.algovis.DelayedArray
 import com.sergeysav.algovis.middleValue
+import com.sergeysav.algovis.structures.ArrayStructure
 import kotlinx.coroutines.experimental.launch
 
 /**
@@ -10,7 +10,7 @@ import kotlinx.coroutines.experimental.launch
  *
  * @constructor Creates a new ParQuickSort
  */
-class ParQuickSort(array: DelayedArray<Int>): ArrayAlgorithm(array) {
+class ParQuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
     
     private var sort: Sort? = null
     

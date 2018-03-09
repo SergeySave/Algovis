@@ -1,14 +1,14 @@
 package com.sergeysav.algovis.algorithms
 
 import com.sergeysav.algovis.BufferArrayAlgorithm
-import com.sergeysav.algovis.DelayedArray
+import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
  * @author sergeys
  *
  * @constructor Creates a new QuickSort
  */
-class MergeSort(array: DelayedArray<Int>): BufferArrayAlgorithm(array) {
+class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
     
     private var left: Int = -1
     private var right: Int = -1
