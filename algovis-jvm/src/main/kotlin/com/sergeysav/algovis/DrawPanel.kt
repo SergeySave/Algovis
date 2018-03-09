@@ -1,5 +1,6 @@
 package com.sergeysav.algovis
 
+import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.NullStructure
 import com.sergeysav.algovis.structures.Structure
 import kotlinx.coroutines.experimental.Job

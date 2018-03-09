@@ -1,6 +1,5 @@
 package com.sergeysav.algovis.algorithms
 
-import com.sergeysav.algovis.ArrayAlgorithm
 import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
