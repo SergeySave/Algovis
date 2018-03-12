@@ -1,6 +1,7 @@
-package com.sergeysav.algovis.algorithms
+package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.Drawer
+import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
@@ -29,13 +30,13 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     }
     
     override fun doDraw(drawer: Drawer) {
-    
+        
         val reading = visitedMain
         synchronized(visitedMain) {
             visitedMain = visitedEditing
             visitedEditing = reading
         }
-    
+        
         for (i in 0 until array.delayArray.baseArray.size) {
             val selection = getSelection(i)
             if (selection != 0) {
@@ -47,7 +48,7 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
             drawer.fill(selection + 1, i, maxValue - array.delayArray.baseArray[i] - 1, 1,
                         array.delayArray.baseArray[i] + 1)
         }
-    
+        
         reading.clear()
     }
     

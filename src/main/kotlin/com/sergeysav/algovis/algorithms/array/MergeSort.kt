@@ -1,4 +1,4 @@
-package com.sergeysav.algovis.algorithms
+package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
 
@@ -66,7 +66,7 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
             } else {
                 buffer.set(i, array.get(rcopy++))
             }
-    
+            
             if (!isActive()) {
                 return
             }
@@ -83,7 +83,7 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
             lcopy = i
             array.set(i, buffer.get(i))
             clearBuffer(i)
-    
+            
             if (!isActive()) {
                 return
             }

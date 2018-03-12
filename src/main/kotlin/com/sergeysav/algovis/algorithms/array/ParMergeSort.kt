@@ -1,4 +1,4 @@
-package com.sergeysav.algovis.algorithms
+package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
 import kotlinx.coroutines.experimental.launch
@@ -17,7 +17,7 @@ class ParMergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
             val sVal = getSelection(index)
             if (sVal != 0) return sVal
         }
-    
+        
         return 0
     }
     
@@ -26,7 +26,7 @@ class ParMergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
             val sVal = getBufferSelection(index)
             if (sVal != 0) return sVal
         }
-    
+        
         return 0
     }
     

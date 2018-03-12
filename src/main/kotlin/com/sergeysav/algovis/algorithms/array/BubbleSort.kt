@@ -1,4 +1,4 @@
-package com.sergeysav.algovis.algorithms
+package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
 
@@ -37,7 +37,7 @@ class BubbleSort(array: ArrayStructure): ArrayAlgorithm(array) {
                     swap(i, i + 1)
                     actionTaken = true
                 }
-    
+                
                 if (!isActive()) {
                     return
                 }

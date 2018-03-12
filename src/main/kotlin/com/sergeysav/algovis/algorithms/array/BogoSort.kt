@@ -1,4 +1,4 @@
-package com.sergeysav.algovis.algorithms
+package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.randomInt
 import com.sergeysav.algovis.structures.ArrayStructure
@@ -45,7 +45,7 @@ class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
             val other = randomInt(0, array.size - 1)
             index2 = other
             swap(i, other)
-    
+            
             if (!isActive()) {
                 return
             }

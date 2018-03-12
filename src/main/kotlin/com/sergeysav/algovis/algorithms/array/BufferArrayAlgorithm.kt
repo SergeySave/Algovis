@@ -1,7 +1,8 @@
-package com.sergeysav.algovis.algorithms
+package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.DelayedArray
 import com.sergeysav.algovis.Drawer
+import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.ArrayStructure
 
 /**
@@ -31,7 +32,7 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
     open fun getSelection(index: Int): Int = 0
     open fun getBufferSelection(index: Int): Int = 0
-
+    
     override fun initDraw(drawer: Drawer) {
         drawer.width = array.delayArray.size
         drawer.height = maxValue * 2
@@ -43,11 +44,11 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
         val reading = visitedMain
         visitedMain = visitedEditing
         visitedEditing = reading
-    
+        
         val readingBuff = visitedBuffMain
         visitedBuffMain = visitedBuffEditing
         visitedBuffEditing = readingBuff
-    
+        
         for (i in 0 until array.delayArray.baseArray.size) {
             val selection = getSelection(i)
             if (selection != 0) {
@@ -65,7 +66,7 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
         for ((i, selection) in readingBuff) {
             drawer.fill(selection + 1, i, maxValue * 2 - buffer.baseArray[i] - 1, 1, buffer.baseArray[i] + 1)
         }
-    
+        
         reading.clear()
         readingBuff.clear()
     }

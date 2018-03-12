@@ -2,15 +2,15 @@ package com.sergeysav.algovis.structures
 
 import com.sergeysav.algovis.DelayedArray
 import com.sergeysav.algovis.Drawer
-import com.sergeysav.algovis.algorithms.BogoSort
-import com.sergeysav.algovis.algorithms.BubbleSort
-import com.sergeysav.algovis.algorithms.InsertionSort
-import com.sergeysav.algovis.algorithms.LinearSearch
-import com.sergeysav.algovis.algorithms.MergeSort
-import com.sergeysav.algovis.algorithms.ParMergeSort
-import com.sergeysav.algovis.algorithms.ParQuickSort
-import com.sergeysav.algovis.algorithms.QuickSort
-import com.sergeysav.algovis.algorithms.SelectionSort
+import com.sergeysav.algovis.algorithms.array.BogoSort
+import com.sergeysav.algovis.algorithms.array.BubbleSort
+import com.sergeysav.algovis.algorithms.array.InsertionSort
+import com.sergeysav.algovis.algorithms.array.LinearSearch
+import com.sergeysav.algovis.algorithms.array.MergeSort
+import com.sergeysav.algovis.algorithms.array.ParMergeSort
+import com.sergeysav.algovis.algorithms.array.ParQuickSort
+import com.sergeysav.algovis.algorithms.array.QuickSort
+import com.sergeysav.algovis.algorithms.array.SelectionSort
 import com.sergeysav.algovis.randomInt
 
 /**
@@ -28,7 +28,9 @@ class ArrayStructure(override val delayMillis: Double): Structure() {
             AR("Parallel Merge Sort") { params -> ParMergeSort(this) },
             AR("Quick Sort") { params -> QuickSort(this) },
             AR("Parallel Quick Sort") { params -> ParQuickSort(this) },
-            AR("Linear Search", listOf(Param("Search For"))) { param -> LinearSearch(this, param[0]) }
+            AR("Linear Search", listOf(Param("Search For"))) { param ->
+                LinearSearch(this, param[0])
+            }
     )
     
     override val initializationConditions: List<InitializationCondition> = listOf(
