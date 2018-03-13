@@ -3,6 +3,8 @@ package com.sergeysav.algovis.structures
 import com.sergeysav.algovis.Delayer
 import com.sergeysav.algovis.Drawer
 import com.sergeysav.algovis.algorithms.bst.AddAlgorithm
+import com.sergeysav.algovis.algorithms.bst.RemoveAlgorithmPredecessor
+import com.sergeysav.algovis.algorithms.bst.RemoveAlgorithmSuccessor
 import com.sergeysav.algovis.toThe
 import kotlin.math.max
 
@@ -15,7 +17,11 @@ class BSTStructure: Structure() {
     val delayer = Delayer()
     
     override val algorithms: List<AlgorithmReference> = listOf(
-            AR("Add", listOf(Param("value"))) { params -> AddAlgorithm(this, params[0]) }
+            AR("Add", listOf(Param("value"))) { params -> AddAlgorithm(this, params[0]) },
+            AR("Remove (Predecessor)", listOf(Param("value"))) { params ->
+                RemoveAlgorithmPredecessor(this, params[0])
+            },
+            AR("Remove (Successor)", listOf(Param("value"))) { params -> RemoveAlgorithmSuccessor(this, params[0]) }
     )
     
     override val initializationConditions: List<InitializationCondition> = listOf(
