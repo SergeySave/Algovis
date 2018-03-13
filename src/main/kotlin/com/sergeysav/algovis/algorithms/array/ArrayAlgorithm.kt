@@ -13,8 +13,8 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
     private val maxValue = (array.delayArray.baseArray.max() ?: 0) + 2
     
-    var visitedMain = mutableMapOf<Int, Int>()
-    var visitedEditing = mutableMapOf<Int, Int>()
+    private var visitedMain = mutableMapOf<Int, Int>()
+    private var visitedEditing = mutableMapOf<Int, Int>()
     
     fun setVisited(index: Int, type: Int = 0) = synchronized(visitedMain) {
         visitedMain[index] = type

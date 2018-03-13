@@ -1,7 +1,5 @@
 package com.sergeysav.algovis.algorithms.bst
 
-import com.sergeysav.algovis.Drawer
-import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.BSTStructure
 
 /**
@@ -9,10 +7,17 @@ import com.sergeysav.algovis.structures.BSTStructure
  *
  * @constructor Creates a new RemoveAlgorithmPredecessor
  */
-class RemoveAlgorithmPredecessor(val bst: BSTStructure, val toRemove: Int): Algorithm() {
+class RemoveAlgorithmPredecessor(bst: BSTStructure, val toRemove: Int): BSTAlgorithm(bst) {
     
     var selectedNode1: BSTStructure.Node? = null
     var selectedNode2: BSTStructure.Node? = null
+    
+    override fun getType(node: BSTStructure.Node): Int {
+        if (node == selectedNode1 || node == selectedNode2) {
+            return 1
+        }
+        return 0
+    }
     
     override suspend fun execute() {
         bst.root = bst.root.remove(toRemove)
@@ -25,14 +30,17 @@ class RemoveAlgorithmPredecessor(val bst: BSTStructure, val toRemove: Int): Algo
         if (!isActive() || this == null) {
             return this
         }
+        setVisited(this)
         this@RemoveAlgorithmPredecessor.selectedNode1 = this
         if (toRemove < data) {
             val node = getLeft().remove(toRemove)
+            setVisited(node)
             this@RemoveAlgorithmPredecessor.selectedNode1 = node
             setLeft(node)
             return this
         } else if (toRemove > data) {
             val node = getRight().remove(toRemove)
+            setVisited(node)
             this@RemoveAlgorithmPredecessor.selectedNode1 = node
             setRight(node)
             return this
@@ -42,6 +50,7 @@ class RemoveAlgorithmPredecessor(val bst: BSTStructure, val toRemove: Int): Algo
     }
     
     private suspend fun BSTStructure.Node.performRemove(): BSTStructure.Node? {
+        setVisited(this)
         this@RemoveAlgorithmPredecessor.selectedNode1 = this
         val leftChild = getLeft()
         val rightChild = getRight()
@@ -52,9 +61,11 @@ class RemoveAlgorithmPredecessor(val bst: BSTStructure, val toRemove: Int): Algo
             if (leftChild != null) {
                 var parent: BSTStructure.Node = this
                 var predecessor: BSTStructure.Node = leftChild
+                setVisited(predecessor)
                 this@RemoveAlgorithmPredecessor.selectedNode2 = predecessor
                 
                 while (predecessor.getRight() != null) {
+                    setVisited(predecessor)
                     this@RemoveAlgorithmPredecessor.selectedNode2 = predecessor
                     parent = predecessor
                     predecessor = predecessor.getRight()!!
@@ -73,19 +84,6 @@ class RemoveAlgorithmPredecessor(val bst: BSTStructure, val toRemove: Int): Algo
             } else {
                 rightChild
             }
-        }
-    }
-    
-    override fun initDraw(drawer: Drawer) {
-        bst.initDraw(drawer)
-    }
-    
-    override fun doDraw(drawer: Drawer) {
-        selectedNode1?.also { selected ->
-            selected.draw(drawer, 1)
-        }
-        selectedNode2?.also { selected ->
-            selected.draw(drawer, 1)
         }
     }
 }
