@@ -19,3 +19,16 @@ inline fun middleValue(i1: Int, i2: Int, i3: Int, byFunc: (Int) -> Int = { x -> 
         return min(i1, i2)
     }
 }
+
+infix fun Int.toThe(exp: Int): Int =
+        if (exp == 1) {
+            this
+        } else if (exp == 0) {
+            1
+        } else if (exp % 2 == 0) {
+            val halfExp = this toThe (exp / 2)
+            halfExp * halfExp
+        } else {
+            val halfExp = this toThe (exp / 2) // rounded down
+            halfExp * halfExp * this
+        }

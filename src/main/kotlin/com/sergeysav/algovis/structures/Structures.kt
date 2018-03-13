@@ -5,7 +5,8 @@ package com.sergeysav.algovis.structures
  */
 
 val structures = mapOf<String, (Double) -> Structure>(
-        "Array" to { delay -> ArrayStructure(delay) }
+        "Array" to ::ArrayStructure,
+        "Binary Search Tree" to ::BSTStructure
 )
 
 typealias AR = AlgorithmReference

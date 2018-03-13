@@ -13,4 +13,6 @@ actual class Drawer {
     }
     
     actual fun fill(selection: Int, x: Int, y: Int, w: Int, h: Int) {}
+    actual fun line(x1: Int, y1: Int, x2: Int, y2: Int) {}
+    actual fun text(string: String, x: Int, y: Int, w: Int, h: Int) {}
 }
