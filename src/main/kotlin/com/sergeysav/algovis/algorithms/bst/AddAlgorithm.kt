@@ -19,7 +19,10 @@ class AddAlgorithm(val bst: BSTStructure, val toAdd: Int): Algorithm() {
         selectedNode = null
     }
     
-    private suspend fun BSTStructure.Node?.add(toAdd: Int): BSTStructure.Node {
+    private suspend fun BSTStructure.Node?.add(toAdd: Int): BSTStructure.Node? {
+        if (!isActive()) {
+            return this
+        }
         this@AddAlgorithm.selectedNode = this
         if (this == null) {
             return bst.Node(toAdd)
