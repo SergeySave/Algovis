@@ -4,6 +4,7 @@ import com.sergeysav.algovis.DelayedArray
 import com.sergeysav.algovis.Drawer
 import com.sergeysav.algovis.algorithms.array.BogoSort
 import com.sergeysav.algovis.algorithms.array.BubbleSort
+import com.sergeysav.algovis.algorithms.array.CocktailSort
 import com.sergeysav.algovis.algorithms.array.InsertionSort
 import com.sergeysav.algovis.algorithms.array.LinearSearch
 import com.sergeysav.algovis.algorithms.array.MergeSort
@@ -22,6 +23,7 @@ class ArrayStructure: Structure() {
     override val algorithms: List<AlgorithmReference> = listOf(
             AR("Bogo Sort") { params -> BogoSort(this) },
             AR("Bubble Sort") { params -> BubbleSort(this) },
+            AR("Cocktail Shaker Sort") { params -> CocktailSort(this) },
             AR("Insertion Sort") { params -> InsertionSort(this) },
             AR("Selection Sort") { params -> SelectionSort(this) },
             AR("Merge Sort") { params -> MergeSort(this) },
