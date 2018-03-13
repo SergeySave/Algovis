@@ -16,8 +16,8 @@ import com.sergeysav.algovis.randomInt
 /**
  * @author sergeys
  */
-class ArrayStructure(override val delayMillis: Double): Structure() {
-    var delayArray: DelayedArray<Int> = DelayedArray(Array(0) { 0 }, delayMillis, delayMillis)
+class ArrayStructure: Structure() {
+    var delayArray: DelayedArray<Int> = DelayedArray(Array(0) { 0 }, ::delayMillis, ::delayMillis)
     
     override val algorithms: List<AlgorithmReference> = listOf(
             AR("Bogo Sort") { params -> BogoSort(this) },
@@ -76,7 +76,7 @@ class ArrayStructure(override val delayMillis: Double): Structure() {
     
     
     private fun ic(name: String, initFunc: (Int) -> Array<Int>) = IC(name) { s ->
-        delayArray = DelayedArray(initFunc(s), delayMillis, delayMillis)
+        delayArray = DelayedArray(initFunc(s), ::delayMillis, ::delayMillis)
         maxValue = (delayArray.baseArray.max() ?: 0) + 2
         initialized = true
     }

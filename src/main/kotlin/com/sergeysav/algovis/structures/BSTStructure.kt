@@ -11,7 +11,7 @@ import kotlin.math.max
  *
  * @constructor Creates a new BSTStructure
  */
-class BSTStructure(override val delayMillis: Double): Structure() {
+class BSTStructure: Structure() {
     val delayer = Delayer()
     
     override val algorithms: List<AlgorithmReference> = listOf(

@@ -72,6 +72,7 @@ fun main(args: Array<String>) {
     fun createOpTimeDialog() =
             createSpinnerDialog("Operation Time (ms)", operationTime, 0.0, (1 shl 20).toDouble(), 0.1) { result ->
                 operationTime = result as Double
+                drawPanel.structure.delayMillis = operationTime
                 opTimeMenu.text = "Operation Time: $operationTime ms"
             }
     
@@ -198,7 +199,8 @@ fun main(args: Array<String>) {
                     group.add(this)
                     addActionListener {
                         drawPanel.job?.cancel()
-                        drawPanel.structure = generator(operationTime)
+                        drawPanel.structure = generator()
+                        drawPanel.structure.delayMillis = operationTime
                         drawPanel.algorithm = null
                         updateStructureMenu()
                     }

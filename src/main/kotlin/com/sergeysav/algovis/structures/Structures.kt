@@ -4,7 +4,7 @@ package com.sergeysav.algovis.structures
  * @author sergeys
  */
 
-val structures = mapOf<String, (Double) -> Structure>(
+val structures = mapOf<String, () -> Structure>(
         "Array" to ::ArrayStructure,
         "Binary Search Tree" to ::BSTStructure
 )

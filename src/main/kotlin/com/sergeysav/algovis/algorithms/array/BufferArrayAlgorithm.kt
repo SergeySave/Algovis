@@ -12,8 +12,8 @@ import com.sergeysav.algovis.structures.ArrayStructure
  */
 abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
-    protected val buffer = DelayedArray(Array(array.delayArray.size) { -1 }, array.delayMillis,
-                                        array.delayMillis)
+    protected val buffer = DelayedArray(Array(array.delayArray.size) { -1 }, array::delayMillis,
+                                        array::delayMillis)
     private val maxValue = (array.delayArray.baseArray.max() ?: 0) + 2
     
     var visitedMain = mutableMapOf<Int, Int>()

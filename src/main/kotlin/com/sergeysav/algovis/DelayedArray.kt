@@ -5,8 +5,10 @@ package com.sergeysav.algovis
  *
  * @constructor Creates a new DelayedArray
  */
-class DelayedArray<T>(val baseArray: Array<T>, val getTime: Double, val setTime: Double) {
+class DelayedArray<T>(val baseArray: Array<T>, val getTime: () -> Double, val setTime: () -> Double) {
     val delayer = Delayer()
+    
+    constructor(baseArray: Array<T>, getTime: Double, setTime: Double): this(baseArray, { getTime }, { setTime })
     
     /**
      * Returns the array element at the specified [index]. This method can be called using the
@@ -16,7 +18,7 @@ class DelayedArray<T>(val baseArray: Array<T>, val getTime: Double, val setTime:
      * ```
      */
     suspend fun get(index: Int): T {
-        delayer.doDelay(getTime)
+        delayer.doDelay(getTime())
         return baseArray.get(index)
     }
     
@@ -28,7 +30,7 @@ class DelayedArray<T>(val baseArray: Array<T>, val getTime: Double, val setTime:
      * ```
      */
     suspend fun set(index: Int, value: T) {
-        delayer.doDelay(setTime)
+        delayer.doDelay(setTime())
         baseArray.set(index, value)
     }
     
