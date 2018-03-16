@@ -14,23 +14,21 @@
 </head>
 <body>
 
-<div class="content">
-	<div id="header">
-		<button id="algorithm" onclick="runAlgorithm()">Start</button>
-	</div>
-	<br/>
-	<canvas id="canvas" width="800" height="800"></canvas>
-	<br/>
-	<div id="footer"></div>
+<div id="header">
+	<button id="algorithm" onclick="onStartButton()">Start</button>
 </div>
+<div class="content">
+	<canvas id="canvas" width="800" height="800"></canvas>
+</div>
+<div id="footer"></div>
 
 <script type="text/javascript" src="web/kotlin.js"></script>
 <script type="text/javascript" src="web/kotlinx-coroutines-core.js"></script>
 <script type="text/javascript" src="web/algovis-js.js"></script>
 
 <script>
-    function runAlgorithm() {
-        this['algovis-js'].com.sergeysav.algovis.runAlgorithm()
+    function onStartButton() {
+        this['algovis-js'].com.sergeysav.algovis.onStartButton()
     }
 
 </script>
