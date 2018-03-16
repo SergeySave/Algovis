@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test</title>
+	<style type="text/css">
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+	</style>
+</head>
+<body>
+
+<div class="content">
+	<div id="header">
+		<button id="algorithm" onclick="runAlgorithm()">Start</button>
+	</div>
+	<br/>
+	<canvas id="canvas" width="800" height="800"></canvas>
+	<br/>
+	<div id="footer"></div>
+</div>
+
+<script type="text/javascript" src="web/kotlin.js"></script>
+<script type="text/javascript" src="web/kotlinx-coroutines-core.js"></script>
+<script type="text/javascript" src="web/algovis-js.js"></script>
+
+<script>
+    function runAlgorithm() {
+        this['algovis-js'].com.sergeysav.algovis.runAlgorithm()
+    }
+
+</script>
+
+</body>
+</html>

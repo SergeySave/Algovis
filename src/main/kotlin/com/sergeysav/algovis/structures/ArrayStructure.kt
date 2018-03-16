@@ -21,15 +21,15 @@ class ArrayStructure: Structure() {
     var delayArray: DelayedArray<Int> = DelayedArray(Array(0) { 0 }, ::delayMillis, ::delayMillis)
     
     override val algorithms: List<AlgorithmReference> = listOf(
-            AR("Bogo Sort") { params -> BogoSort(this) },
-            AR("Bubble Sort") { params -> BubbleSort(this) },
-            AR("Cocktail Shaker Sort") { params -> CocktailSort(this) },
-            AR("Insertion Sort") { params -> InsertionSort(this) },
-            AR("Selection Sort") { params -> SelectionSort(this) },
-            AR("Merge Sort") { params -> MergeSort(this) },
-            AR("Parallel Merge Sort") { params -> ParMergeSort(this) },
-            AR("Quick Sort") { params -> QuickSort(this) },
-            AR("Parallel Quick Sort") { params -> ParQuickSort(this) },
+            AR("Bogo Sort") { BogoSort(this) },
+            AR("Bubble Sort") { BubbleSort(this) },
+            AR("Cocktail Shaker Sort") { CocktailSort(this) },
+            AR("Insertion Sort") { InsertionSort(this) },
+            AR("Selection Sort") { SelectionSort(this) },
+            AR("Merge Sort") { MergeSort(this) },
+            AR("Parallel Merge Sort") { ParMergeSort(this) },
+            AR("Quick Sort") { QuickSort(this) },
+            AR("Parallel Quick Sort") { ParQuickSort(this) },
             AR("Linear Search", listOf(Param("Search For"))) { param ->
                 LinearSearch(this, param[0])
             }

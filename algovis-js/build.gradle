@@ -1,6 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.2.30'
-    ext.kotlin_coroutines_version = '0.22'
+    ext.kotlin_coroutines_version = '0.22.5'
 
     repositories {
         mavenCentral()
@@ -17,7 +17,32 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$kotlin_coroutines_version"
     expectedBy project(":")
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
+
+task assembleWeb(type: Sync) {
+    configurations.compile.each { File file ->
+        from(zipTree(file.absolutePath), {
+            includeEmptyDirs = false
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") ||
+                        !path.startsWith("META-INF/"))
+            }
+        })
+    }
+    from compileKotlin2Js.destinationDir
+    into "${projectDir}/web"
+
+    dependsOn classes
+}
+
+assemble.dependsOn assembleWeb

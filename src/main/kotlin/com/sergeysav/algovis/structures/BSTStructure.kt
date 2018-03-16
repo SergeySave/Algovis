@@ -61,25 +61,23 @@ class BSTStructure: Structure() {
     }
     
     override fun draw(drawer: Drawer) {
-        root.drawTree(drawer, 0, drawer.width, 4, null)
+        root?.drawTree(drawer, 0, drawer.width, 4, null)
     }
     
-    private fun Node?.drawTree(drawer: Drawer, left: Int, right: Int, y: Int, parentX: Int?) {
-        if (this != null) {
-            val pos = (left + right) / 2
-            
-            this.x = pos
-            this.y = y
-            
-            if (parentX != null) {
-                drawer.line(pos, y, parentX, y - 2)
-            }
-            
-            this.left.drawTree(drawer, left, pos, y + 4, pos)
-            this.right.drawTree(drawer, pos, right, y + 4, pos)
-            
-            this.draw(drawer, 0)
+    private fun Node.drawTree(drawer: Drawer, left: Int, right: Int, y: Int, parentX: Int?) {
+        val pos = (left + right) / 2
+        
+        this.x = pos
+        this.y = y
+        
+        if (parentX != null) {
+            drawer.line(pos, y, parentX, y - 2)
         }
+        
+        this.left?.drawTree(drawer, left, pos, y + 4, pos)
+        this.right?.drawTree(drawer, pos, right, y + 4, pos)
+        
+        this.draw(drawer, 0)
     }
     
     var root: Node? = null
