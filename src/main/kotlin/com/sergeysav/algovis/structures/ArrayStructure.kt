@@ -2,6 +2,7 @@ package com.sergeysav.algovis.structures
 
 import com.sergeysav.algovis.DelayedArray
 import com.sergeysav.algovis.Drawer
+import com.sergeysav.algovis.algorithms.array.BinarySearch
 import com.sergeysav.algovis.algorithms.array.BogoSort
 import com.sergeysav.algovis.algorithms.array.BubbleSort
 import com.sergeysav.algovis.algorithms.array.CocktailSort
@@ -32,6 +33,9 @@ class ArrayStructure: Structure() {
             AR("Parallel Quick Sort") { ParQuickSort(this) },
             AR("Linear Search", listOf(Param("Search For"))) { param ->
                 LinearSearch(this, param[0])
+            },
+            AR("Binary Search", listOf(Param("Search For"))) { param ->
+                BinarySearch(this, param[0])
             }
     )
     
