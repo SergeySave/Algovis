@@ -4,6 +4,7 @@ import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.NullStructure
 import com.sergeysav.algovis.structures.Structure
 import kotlinx.coroutines.experimental.Job
+import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLDivElement
 import kotlin.browser.document
@@ -29,8 +30,7 @@ class Model {
     var structureMenuSubItem: HTMLDivElement = document.elementWithId("structureMenuSubItem")
     var structureMenuSubListItem: HTMLDivElement = document.elementWithId("structureMenuSubListItem")
     var structureMenuSubSubItem: HTMLDivElement = document.elementWithId("structureMenuSubSubItem")
-    var simulationMenu: HTMLDivElement = document.elementWithId("simulationMenu")
-    var simulationMenuItem: HTMLDivElement = document.elementWithId("simulationMenuItem")
+    var simulation: HTMLAnchorElement = document.elementWithId("simulation")
     var structureList: HTMLDivElement = document.elementWithId("structureList")
     var structureListItem: HTMLDivElement = document.elementWithId("structureListItem")
 }

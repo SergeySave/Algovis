@@ -39,7 +39,8 @@ fun main(args: Array<String>) {
     lateinit var dataSizeMenu: JMenuItem
     lateinit var opTimeMenu: JMenuItem
     lateinit var structureMenu: JMenu
-    lateinit var simulationMenu: JMenu
+    lateinit var simulationMenu: JMenuItem
+    var simMenuActionListener: (() -> Unit) = {}
     
     fun <T: Number> createSpinnerDialog(name: String, default: T, min: Comparable<T>, max: Comparable<T>, step: T,
                                         callback: (Any) -> Unit) {
@@ -77,42 +78,39 @@ fun main(args: Array<String>) {
             }
     
     fun updateSimulationMenu() {
-        simulationMenu.removeAll()
-        simulationMenu.apply {
-            val algorithm = drawPanel.algorithm
-            if (algorithm == null) {
-                add("No Algorithm Selected")
-            } else if (!algorithm.complete) {
-                if (!algorithm.running) {
-                    add(JMenuItem("Start Algorithm").apply {
-                        addActionListener {
-                            drawPanel.job?.cancel()
-                            drawPanel.job = launch {
-                                algorithm.run(::isActive)
-                                updateSimulationMenu()
-                            }
-                            launch {
-                                kotlinx.coroutines.experimental.delay(50)
-                                updateSimulationMenu()
-                            }
-                        }
-                    })
-                } else {
-                    add(JMenuItem("Stop Algorithm").apply {
-                        addActionListener {
-                            drawPanel.job?.cancel()
-                            launch {
-                                kotlinx.coroutines.experimental.delay(50)
-                                algorithm.running = false
-                                updateSimulationMenu()
-                            }
-                        }
-                    })
+        simMenuActionListener = {}
+        val algorithm = drawPanel.algorithm
+        simulationMenu.text = if (algorithm == null) {
+            "No Algorithm Selected"
+        } else if (!algorithm.complete) {
+            if (!algorithm.running) {
+                simMenuActionListener = {
+                    drawPanel.job?.cancel()
+                    drawPanel.job = launch {
+                        algorithm.run(::isActive)
+                        updateSimulationMenu()
+                    }
+                    launch {
+                        kotlinx.coroutines.experimental.delay(50)
+                        updateSimulationMenu()
+                    }
                 }
+                "Start Algorithm"
             } else {
-                add(if (algorithm.running) "Algorithm Finished"
-                    else "Algorithm Aborted")
+                simMenuActionListener = {
+                    drawPanel.job?.cancel()
+                    launch {
+                        kotlinx.coroutines.experimental.delay(50)
+                        algorithm.running = false
+                        updateSimulationMenu()
+                    }
+                }
+                "Stop Algorithm"
             }
+        } else if (algorithm.running) {
+            "Algorithm Finished"
+        } else {
+            "Algorithm Aborted"
         }
     }
     
@@ -181,8 +179,9 @@ fun main(args: Array<String>) {
     }
     
     jMenuBar.apply {
-        add(JMenu("Simulation").apply {
+        add(JMenuItem("Simulation").apply {
             simulationMenu = this
+            addActionListener { simMenuActionListener() }
             updateSimulationMenu()
         })
         add(JMenu("Current Structure").apply {

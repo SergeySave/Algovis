@@ -39,10 +39,8 @@ fun main(args: Array<String>) {
                 opTimeMenu.textContent = "Operation Time: $operationTime ms"
             }
         }
-        
-        simulationMenu.id = ""
-        simulationMenuItem.remove()
-        simulationMenuItem.id = ""
+    
+        simulation.id = ""
         
         structureMenu.id = ""
         structureMenuSubSubItem.remove()
@@ -59,49 +57,40 @@ fun main(args: Array<String>) {
         structureListItem.id = ""
         
         fun updateSimulationMenu() {
-            //Remove all children elements
-            while (simulationMenu.lastElementChild != null) {
-                simulationMenu.removeChild(simulationMenu.lastElementChild as Node)
-            }
-            
             val alg = algorithm
-            if (alg == null) {
-                simulationMenu.appendChild(simulationMenuItem.cloneNode(true).apply {
-                    textContent = "No Algorithm Selected"
-                })
+            val eventHandlers = simulation.unsafeCast<GlobalEventHandlers>()
+            eventHandlers.onclick = {}
+            simulation.textContent = if (alg == null) {
+                "No Algorithm Selected"
             } else if (!alg.complete) {
                 if (!alg.running) {
-                    simulationMenu.appendChild(simulationMenuItem.cloneNode(true).apply {
-                        textContent = "Start Algorithm"
-                        (this.unsafeCast<GlobalEventHandlers>()).onclick = {
-                            job?.cancel()
-                            job = launch {
-                                alg.run(::isActive)
-                                updateSimulationMenu()
-                            }
-                            launch {
-                                delay(50)
-                                updateSimulationMenu()
-                            }
+                    eventHandlers.onclick = {
+                        job?.cancel()
+                        job = launch {
+                            alg.run(::isActive)
+                            updateSimulationMenu()
                         }
-                    })
+                        launch {
+                            delay(50)
+                            updateSimulationMenu()
+                        }
+                    }
+                    "Start Algorithm"
                 } else {
-                    simulationMenu.appendChild(simulationMenuItem.cloneNode(true).apply {
-                        textContent = "Stop Algorithm"
-                        (this.unsafeCast<GlobalEventHandlers>()).onclick = {
-                            job?.cancel()
-                            launch {
-                                delay(50)
-                                alg.running = false
-                                updateSimulationMenu()
-                            }
+                    eventHandlers.onclick = {
+                        job?.cancel()
+                        launch {
+                            delay(50)
+                            alg.running = false
+                            updateSimulationMenu()
                         }
-                    })
+                    }
+                    "Stop Algorithm"
                 }
+            } else if (alg.running) {
+                "Algorithm Finished"
             } else {
-                simulationMenu.appendChild(simulationMenuItem.cloneNode(true).apply {
-                    textContent = if (alg.running) "Algorithm Finished" else "Algorithm Aborted"
-                })
+                "Algorithm Aborted"
             }
         }
         
@@ -204,6 +193,8 @@ fun main(args: Array<String>) {
                 }
             })
         }
+    
+        updateSimulationMenu()
     }
 }
 
