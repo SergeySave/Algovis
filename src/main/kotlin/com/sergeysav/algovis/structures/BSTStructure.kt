@@ -87,7 +87,10 @@ class BSTStructure: Structure() {
             return root?.height ?: -1
         }
     
-    private fun ic(name: String, func: (Int) -> Unit) = IC(name, func).apply { initialized = true }
+    private fun ic(name: String, func: (Int) -> Unit) = IC(name) {
+        func(it)
+        initialized = true
+    }
     
     inner class Node(var data: Int) {
         var left: Node? = null

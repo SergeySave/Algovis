@@ -4,33 +4,79 @@
 	<meta charset="UTF-8">
 	<title>Test</title>
 	<style type="text/css">
-        .content {
+        .canvasContent {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
 	</style>
+	<link rel="stylesheet" type="text/css" href="http://svr.sergeysav.com:5680/semantic/semantic.min.css">
+	<script src="http://svr.sergeysav.com:5680/js/jquery-3.3.1.min.js"></script>
+	<script src="http://svr.sergeysav.com:5680/semantic/semantic.min.js"></script>
 </head>
 <body>
-
-<div id="header">
-	<button id="algorithm" onclick="onStartButton()">Start</button>
-</div>
-<div class="content">
-	<canvas id="canvas" width="800" height="800"></canvas>
+<div class="ui padded container" style="height:95%;">
+	<div id="mainArea" style="width:100%; height:100%;">
+		<div id="controls" class="ui large stackable menu">
+			<div class="ui dropdown item">
+				Simulation
+				<i class="ui dropdown icon"></i>
+				<div id="simulationMenu" class="menu">
+					<div id="simulationMenuItem" class="item">
+					</div>
+				</div>
+			</div>
+			<div class="ui dropdown item">
+				Current Structure
+				<i class="ui dropdown icon"></i>
+				<div id="structureMenu" class="menu">
+					<div id="structureMenuItem" class="ui dropdown item">
+						<i class="ui dropdown icon"></i>
+						<div class="menu">
+							<div id="structureMenuSubItem" class="item">
+							</div>
+							<div id="structureMenuSubListItem" class="ui dropdown item">
+								<i class="ui dropdown icon"></i>
+								<div class="menu">
+									<div id="structureMenuSubSubItem" class="item">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui dropdown item">
+				Structures
+				<i class="ui dropdown icon"></i>
+				<div id="structureList" class="menu">
+					<div id="structureListItem" class="item">
+					</div>
+				</div>
+			</div>
+			<div class="ui dropdown item">
+				Options
+				<i class="ui dropdown icon"></i>
+				<div class="menu">
+					<button id="dataSizeMenu" class="item"></button>
+					<button id="opTimeMenu" class="item"></button>
+				</div>
+			</div>
+		</div>
+		<div class="canvasContent">
+			<canvas id="canvas" width="100%" height="100%"></canvas>
+		</div>
+	</div>
 </div>
 <div id="footer"></div>
 
 <script type="text/javascript" src="web/kotlin.js"></script>
+<script type="text/javascript" src="web/kotlinx-atomicfu.js"></script>
 <script type="text/javascript" src="web/kotlinx-coroutines-core.js"></script>
 <script type="text/javascript" src="web/algovis-js.js"></script>
-
 <script>
-    function onStartButton() {
-        this['algovis-js'].com.sergeysav.algovis.onStartButton()
-    }
-
+	$('.ui.dropdown').dropdown();
+	$('.activating.element').popup();
 </script>
 
 </body>

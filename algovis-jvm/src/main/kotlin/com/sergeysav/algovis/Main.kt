@@ -110,11 +110,8 @@ fun main(args: Array<String>) {
                     })
                 }
             } else {
-                if (algorithm.running) {
-                    add("Algorithm Finished")
-                } else {
-                    add("Algorithm Aborted")
-                }
+                add(if (algorithm.running) "Algorithm Finished"
+                    else "Algorithm Aborted")
             }
         }
     }
