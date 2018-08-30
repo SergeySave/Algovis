@@ -67,7 +67,8 @@ class ArrayStructure: Structure() {
     val size: Int
         get() = delayArray.size
     
-    private var maxValue = 0
+    var maxValue = 0
+        private set
     
     override fun initDraw(drawer: Drawer) {
         drawer.width = delayArray.size

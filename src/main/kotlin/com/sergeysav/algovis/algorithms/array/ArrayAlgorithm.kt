@@ -11,8 +11,6 @@ import com.sergeysav.algovis.structures.ArrayStructure
  */
 abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
-    private val maxValue = (array.delayArray.baseArray.max() ?: 0) + 2
-    
     private var visitedMain = mutableMapOf<Int, Int>()
     private var visitedEditing = mutableMapOf<Int, Int>()
     
@@ -24,7 +22,7 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
     override fun initDraw(drawer: Drawer) {
         drawer.width = array.delayArray.size
-        drawer.height = maxValue
+        drawer.height = array.maxValue
         
         drawer.beginDraw()
     }
@@ -40,12 +38,12 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
         for (i in 0 until array.delayArray.baseArray.size) {
             val selection = getSelection(i)
             if (selection != 0) {
-                drawer.fill(selection, i, maxValue - array.delayArray.baseArray[i] - 1, 1,
+                drawer.fill(selection, i, array.maxValue - array.delayArray.baseArray[i] - 1, 1,
                             array.delayArray.baseArray[i] + 1)
             }
         }
         for ((i, selection) in reading) {
-            drawer.fill(selection + 1, i, maxValue - array.delayArray.baseArray[i] - 1, 1,
+            drawer.fill(selection + 1, i, array.maxValue - array.delayArray.baseArray[i] - 1, 1,
                         array.delayArray.baseArray[i] + 1)
         }
         

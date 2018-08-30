@@ -14,7 +14,6 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
     protected val buffer = DelayedArray(Array(array.delayArray.size) { -1 }, array::delayMillis,
                                         array::delayMillis)
-    private val maxValue = (array.delayArray.baseArray.max() ?: 0) + 2
     
     var visitedMain = mutableMapOf<Int, Int>()
     var visitedEditing = mutableMapOf<Int, Int>()
@@ -35,7 +34,7 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
     override fun initDraw(drawer: Drawer) {
         drawer.width = array.delayArray.size
-        drawer.height = maxValue * 2
+        drawer.height = array.maxValue * 2
         
         drawer.beginDraw()
     }
@@ -52,19 +51,20 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
         for (i in 0 until array.delayArray.baseArray.size) {
             val selection = getSelection(i)
             if (selection != 0) {
-                drawer.fill(selection, i, maxValue - array.delayArray.baseArray[i] - 1, 1,
+                drawer.fill(selection, i, array.maxValue - array.delayArray.baseArray[i] - 1, 1,
                             array.delayArray.baseArray[i] + 1)
             }
         }
         for ((i, selection) in reading) {
-            drawer.fill(selection + 1, i, maxValue - array.delayArray.baseArray[i] - 1, 1,
+            drawer.fill(selection + 1, i, array.maxValue - array.delayArray.baseArray[i] - 1, 1,
                         array.delayArray.baseArray[i] + 1)
         }
         for (i in 0 until array.delayArray.baseArray.size) {
-            drawer.fill(getBufferSelection(i), i, maxValue * 2 - buffer.baseArray[i] - 1, 1, buffer.baseArray[i] + 1)
+            drawer.fill(getBufferSelection(i), i, array.maxValue * 2 - buffer.baseArray[i] - 1, 1,
+                        buffer.baseArray[i] + 1)
         }
         for ((i, selection) in readingBuff) {
-            drawer.fill(selection + 1, i, maxValue * 2 - buffer.baseArray[i] - 1, 1, buffer.baseArray[i] + 1)
+            drawer.fill(selection + 1, i, array.maxValue * 2 - buffer.baseArray[i] - 1, 1, buffer.baseArray[i] + 1)
         }
         
         reading.clear()
