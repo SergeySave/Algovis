@@ -6,6 +6,7 @@ import com.sergeysav.algovis.algorithms.array.BinarySearch
 import com.sergeysav.algovis.algorithms.array.BogoSort
 import com.sergeysav.algovis.algorithms.array.BubbleSort
 import com.sergeysav.algovis.algorithms.array.CocktailSort
+import com.sergeysav.algovis.algorithms.array.InlineMergeSort
 import com.sergeysav.algovis.algorithms.array.InsertionSort
 import com.sergeysav.algovis.algorithms.array.LinearSearch
 import com.sergeysav.algovis.algorithms.array.MergeSort
@@ -29,6 +30,7 @@ class ArrayStructure: Structure() {
             AR("Selection Sort") { SelectionSort(this) },
             AR("Merge Sort") { MergeSort(this) },
             AR("Parallel Merge Sort") { ParMergeSort(this) },
+            AR("Inline Merge Sort") { InlineMergeSort(this) },
             AR("Quick Sort") { QuickSort(this) },
             AR("Parallel Quick Sort") { ParQuickSort(this) },
             AR("Linear Search", listOf(Param("Search For"))) { param ->

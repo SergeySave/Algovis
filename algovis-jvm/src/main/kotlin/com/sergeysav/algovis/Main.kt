@@ -179,15 +179,6 @@ fun main(args: Array<String>) {
     }
     
     jMenuBar.apply {
-        add(JMenuItem("Simulation").apply {
-            simulationMenu = this
-            addActionListener { simMenuActionListener() }
-            updateSimulationMenu()
-        })
-        add(JMenu("Current Structure").apply {
-            structureMenu = this
-            add(JMenuItem("No Structure Selected"))
-        })
         add(JMenu("Structures").apply {
             val group = ButtonGroup()
             for ((name, generator) in structures) {
@@ -203,6 +194,10 @@ fun main(args: Array<String>) {
                 })
             }
         })
+        add(JMenu("Current Structure").apply {
+            structureMenu = this
+            add(JMenuItem("No Structure Selected"))
+        })
         add(JMenu("Options").apply {
             add(JMenuItem("Operation Time: $operationTime ms").apply {
                 opTimeMenu = this
@@ -216,6 +211,11 @@ fun main(args: Array<String>) {
                     createDataSizeDialog()
                 }
             })
+        })
+        add(JMenuItem("Simulation").apply {
+            simulationMenu = this
+            addActionListener { simMenuActionListener() }
+            updateSimulationMenu()
         })
     }
     
