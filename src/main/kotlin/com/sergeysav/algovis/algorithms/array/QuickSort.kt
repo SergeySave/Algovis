@@ -2,6 +2,7 @@ package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.middleValue
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -35,27 +36,27 @@ class QuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
         var h = _h
         low = l
         high = h
-        
-        if (low >= high || !isActive()) return
+    
+        if (low >= high || !isActive) return
         
         pivotIdx = middleValue(low, high, (high + low) / 2) { x -> array.get(x) }
         val pivotVal = array.get(pivotIdx)
         
         val oldLow = low
         val oldHigh = high
-        
-        while (low < high && isActive()) {
+    
+        while (low < high && isActive) {
             setVisited(low)
-            while (array.get(low) < pivotVal && isActive()) {
+            while (array.get(low) < pivotVal && isActive) {
                 low++
                 setVisited(low)
             }
             setVisited(high)
-            while (array.get(high) > pivotVal && isActive()) {
+            while (array.get(high) > pivotVal && isActive) {
                 high--
                 setVisited(high)
             }
-            if (!isActive()) {
+            if (!isActive) {
                 return
             }
             if (low < high) {

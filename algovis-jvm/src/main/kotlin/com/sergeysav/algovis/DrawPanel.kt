@@ -3,7 +3,6 @@ package com.sergeysav.algovis
 import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.NullStructure
 import com.sergeysav.algovis.structures.Structure
-import kotlinx.coroutines.experimental.Job
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Graphics2D
@@ -21,7 +20,7 @@ class DrawPanel(private val jMenuBar: JMenuBar): JPanel() {
     var algorithm: Algorithm? = null
     var completionCallback: (Boolean?) -> Unit = {}
     
-    var job: Job? = null
+    var job: Algorithm? = null
     var lastActive: Boolean? = null
     val drawer: Drawer = Drawer(false)
     
@@ -43,8 +42,8 @@ class DrawPanel(private val jMenuBar: JMenuBar): JPanel() {
         structure.draw(drawer)
         algorithm?.doDraw(drawer)
     
-        if (job?.isActive != lastActive) {
-            lastActive = job?.isActive
+        if (job?.active != lastActive) {
+            lastActive = job?.active
             completionCallback(lastActive)
         }
     }

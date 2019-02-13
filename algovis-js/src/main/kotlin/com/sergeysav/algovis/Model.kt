@@ -3,7 +3,6 @@ package com.sergeysav.algovis
 import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.NullStructure
 import com.sergeysav.algovis.structures.Structure
-import kotlinx.coroutines.experimental.Job
 import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLDivElement
@@ -18,7 +17,7 @@ class Model {
     var algorithm: Algorithm? = null
     var completionCallback: (Boolean?) -> Unit = {}
     
-    var job: Job? = null
+    var job: Algorithm? = null
     var lastActive: Boolean? = null
     
     var mainArea: HTMLDivElement = document.elementWithId("mainArea")

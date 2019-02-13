@@ -3,7 +3,8 @@
 package com.sergeysav.algovis
 
 import com.sergeysav.algovis.structures.structures
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.ButtonGroup
@@ -23,7 +24,7 @@ import javax.swing.WindowConstants
 /**
  * @author sergeys
  */
-fun main(args: Array<String>) {
+fun main() = runBlocking {
     val jFrame = JFrame("AlgoVis")
     
     val jMenuBar = JMenuBar()
@@ -85,25 +86,19 @@ fun main(args: Array<String>) {
         } else if (!algorithm.complete) {
             if (!algorithm.running) {
                 simMenuActionListener = {
-                    drawPanel.job?.cancel()
-                    drawPanel.job = launch {
-                        algorithm.run(::isActive)
+                    drawPanel.job?.stop()
+                    drawPanel.job = algorithm
+                    algorithm.start {
+                        //On completion
                         updateSimulationMenu()
                     }
-                    launch {
-                        kotlinx.coroutines.experimental.delay(50)
-                        updateSimulationMenu()
-                    }
+                    updateSimulationMenu()
                 }
                 "Start Algorithm"
             } else {
                 simMenuActionListener = {
-                    drawPanel.job?.cancel()
-                    launch {
-                        kotlinx.coroutines.experimental.delay(50)
-                        algorithm.running = false
-                        updateSimulationMenu()
-                    }
+                    drawPanel.job?.stop()
+                    updateSimulationMenu()
                 }
                 "Stop Algorithm"
             }
@@ -123,7 +118,7 @@ fun main(args: Array<String>) {
                 for (initializionCondition in drawPanel.structure.initializationConditions) {
                     add(JMenuItem(initializionCondition.name).apply {
                         addActionListener {
-                            drawPanel.job?.cancel()
+                            drawPanel.job?.stop()
                             initializionCondition(initializationSize)
                             updateStructureMenu()
                         }
@@ -138,7 +133,7 @@ fun main(args: Array<String>) {
                             add(JMenuItem(name).apply {
                                 group.add(this)
                                 addActionListener {
-                                    drawPanel.job?.cancel()
+                                    drawPanel.job?.stop()
                                     drawPanel.algorithm = creator(intArrayOf())
                                     updateStructureMenu()
                                 }
@@ -164,7 +159,7 @@ fun main(args: Array<String>) {
                                 
                                 add(JMenuItem("Select").apply {
                                     addActionListener {
-                                        drawPanel.job?.cancel()
+                                        drawPanel.job?.stop()
                                         drawPanel.algorithm = creator(paramVals)
                                         updateStructureMenu()
                                     }
@@ -185,7 +180,7 @@ fun main(args: Array<String>) {
                 add(JRadioButtonMenuItem(name).apply {
                     group.add(this)
                     addActionListener {
-                        drawPanel.job?.cancel()
+                        drawPanel.job?.stop()
                         drawPanel.structure = generator()
                         drawPanel.structure.delayMillis = operationTime
                         drawPanel.algorithm = null
@@ -226,14 +221,8 @@ fun main(args: Array<String>) {
     
     jFrame.isVisible = true
     
-    Thread {
-        while (true) {
-            Thread.sleep(1000 / 60)
-            jFrame.repaint()
-        }
-    }.apply {
-        name = "Refresh Thread"
-        isDaemon = true
-        start()
+    while (true) {
+        delay(1000 / 60)
+        jFrame.repaint()
     }
 }

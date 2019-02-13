@@ -2,7 +2,8 @@ package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.middleValue
 import com.sergeysav.algovis.structures.ArrayStructure
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 /**
  * @author sergeys
@@ -59,19 +60,19 @@ class ParQuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
         suspend fun run() {
             low = _l
             high = _h
-            
-            if (low >= high || !isActive()) return
+    
+            if (low >= high || !isActive) return
             
             pivotIdx = middleValue(low, high, (high + low) / 2) { x -> array.get(x) }
             val pivotVal = array.get(pivotIdx)
             
             val oldLow = low
             val oldHigh = high
-            
-            while (low < high && isActive()) {
-                while (array.get(low) < pivotVal && isActive()) ++low
-                while (array.get(high) > pivotVal && isActive()) --high
-                if (!isActive()) {
+    
+            while (low < high && isActive) {
+                while (array.get(low) < pivotVal && isActive) ++low
+                while (array.get(high) > pivotVal && isActive) --high
+                if (!isActive) {
                     return
                 }
                 if (low < high) {

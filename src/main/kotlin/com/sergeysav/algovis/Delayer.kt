@@ -1,6 +1,6 @@
 package com.sergeysav.algovis
 
-import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.delay
 
 /**
  * @author sergeys
@@ -14,9 +14,9 @@ class Delayer {
         extraTime += (time % 1)
         if (extraTime >= 1) {
             extraTime -= 1
-            delay(time.toInt() + 1)
+            delay(time.toLong() + 1)
         } else if (time >= 1) {
-            delay(time.toInt())
+            delay(time.toLong())
         }
     }
 }

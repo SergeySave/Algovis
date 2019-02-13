@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -24,7 +25,7 @@ class LinearSearch(array: ArrayStructure, private val searchFor: Int): ArrayAlgo
         for (i in 0 until array.size) {
             setVisited(i)
             selected = i
-            if (array.get(i) == searchFor || !isActive()) {
+            if (array.get(i) == searchFor || !isActive) {
                 return
             }
         }

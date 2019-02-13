@@ -1,7 +1,8 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 /**
  * @author sergeys
@@ -117,8 +118,8 @@ class ParMergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
                 } else {
                     buffer.set(i, array.get(rcopy++))
                 }
-                
-                if (!isActive()) {
+    
+                if (!isActive) {
                     return
                 }
             }
@@ -131,8 +132,8 @@ class ParMergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
                 lcopy = i
                 array.set(i, buffer.get(i))
                 clearBuffer(i)
-                
-                if (!isActive()) {
+    
+                if (!isActive) {
                     return
                 }
             }

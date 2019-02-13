@@ -1,8 +1,6 @@
 package com.sergeysav.algovis
 
 import com.sergeysav.algovis.structures.structures
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.GlobalEventHandlers
@@ -65,25 +63,19 @@ fun main(args: Array<String>) {
             } else if (!alg.complete) {
                 if (!alg.running) {
                     eventHandlers.onclick = {
-                        job?.cancel()
-                        job = launch {
-                            alg.run(::isActive)
+                        job?.stop()
+                        job = alg
+                        alg.start {
+                            //On Completion
                             updateSimulationMenu()
                         }
-                        launch {
-                            delay(50)
-                            updateSimulationMenu()
-                        }
+                        updateSimulationMenu()
                     }
                     "Start Algorithm"
                 } else {
                     eventHandlers.onclick = {
-                        job?.cancel()
-                        launch {
-                            delay(50)
-                            alg.running = false
-                            updateSimulationMenu()
-                        }
+                        job?.stop()
+                        updateSimulationMenu()
                     }
                     "Stop Algorithm"
                 }
@@ -109,7 +101,7 @@ fun main(args: Array<String>) {
                     lastElementChild!!.appendChild(structureMenuSubItem.cloneNode(true).apply {
                         textContent = initializionCondition.name
                         (this.unsafeCast<GlobalEventHandlers>()).onclick = {
-                            job?.cancel()
+                            job?.stop()
                             initializionCondition(initializationSize)
                             updateStructureMenu()
                         }
@@ -128,7 +120,7 @@ fun main(args: Array<String>) {
                                     classList.add("active")
                                 }
                                 (this.unsafeCast<GlobalEventHandlers>()).onclick = {
-                                    job?.cancel()
+                                    job?.stop()
                                     algorithm = creator(intArrayOf())
                                     algorithmName = name
                                     updateStructureMenu()
@@ -162,7 +154,7 @@ fun main(args: Array<String>) {
                                 lastElementChild!!.appendChild(structureMenuSubSubItem.cloneNode(true).apply {
                                     textContent = "Select"
                                     (this.unsafeCast<GlobalEventHandlers>()).onclick = {
-                                        job?.cancel()
+                                        job?.stop()
                                         algorithm = creator(paramVals)
                                         algorithmName = name
                                         updateStructureMenu()
@@ -185,7 +177,7 @@ fun main(args: Array<String>) {
                 textContent = name
                 (this.unsafeCast<GlobalEventHandlers>()).onclick = {
                     structure = generator()
-                    job?.cancel()
+                    job?.stop()
                     structure.delayMillis = operationTime
                     algorithm = null
                     algorithmName = null

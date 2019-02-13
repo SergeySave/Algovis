@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -41,7 +42,7 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
     }
     
     private suspend fun sort(start: Int, end: Int) {
-        if (end - start <= 1 || !isActive()) return
+        if (end - start <= 1 || !isActive) return
         
         val mid = (start + end) / 2
         sort(start, mid)
@@ -66,8 +67,8 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
             } else {
                 buffer.set(i, array.get(rcopy++))
             }
-            
-            if (!isActive()) {
+    
+            if (!isActive) {
                 return
             }
         }
@@ -83,8 +84,8 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
             lcopy = i
             array.set(i, buffer.get(i))
             clearBuffer(i)
-            
-            if (!isActive()) {
+    
+            if (!isActive) {
                 return
             }
         }

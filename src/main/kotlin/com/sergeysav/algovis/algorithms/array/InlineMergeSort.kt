@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -44,6 +45,7 @@ class InlineMergeSort(array: ArrayStructure): ArrayAlgorithm(array) {
                 w = l + (n - l + 1) / 2
                 sortIntoWorkingArea(w, n, l)
                 mergeIntoWorkingArea(l, l + n - w, n, u, w)
+                if (!isActive) return
             }
             for (i in w downTo (l + 1)) {
                 var j = i
@@ -53,6 +55,7 @@ class InlineMergeSort(array: ArrayStructure): ArrayAlgorithm(array) {
                     working = w
                     swap(j, j - 1)
                     j++
+                    if (!isActive) return
                 }
             }
         }
@@ -91,18 +94,21 @@ class InlineMergeSort(array: ArrayStructure): ArrayAlgorithm(array) {
             up = j
             working = w
             swap(w++, if (array.get(i) < array.get(j)) i++ else j++)
+            if (!isActive) return
         }
         while (i < m) {
             low = i
             up = j
             working = w
             swap(w++, i++)
+            if (!isActive) return
         }
         while (j < n) {
             low = i
             up = j
             working = w
             swap(w++, j++)
+            if (!isActive) return
         }
     }
 }

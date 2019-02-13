@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -37,8 +38,8 @@ class BubbleSort(array: ArrayStructure): ArrayAlgorithm(array) {
                     swap(i, i + 1)
                     actionTaken = true
                 }
-                
-                if (!isActive()) {
+    
+                if (!isActive) {
                     return
                 }
             }

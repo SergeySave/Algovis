@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -42,6 +43,7 @@ class InsertionSort(array: ArrayStructure): ArrayAlgorithm(array) {
                     // If the next element down is not less than the pivot, the pivot is placed
                     break
                 }
+                if (!isActive) return
             }
         }
         part++

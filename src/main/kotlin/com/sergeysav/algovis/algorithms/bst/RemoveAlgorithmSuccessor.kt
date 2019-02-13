@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.bst
 
 import com.sergeysav.algovis.structures.BSTStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -27,7 +28,7 @@ class RemoveAlgorithmSuccessor(bst: BSTStructure, val toRemove: Int): BSTAlgorit
     }
     
     private suspend fun BSTStructure.Node?.remove(toRemove: Int): BSTStructure.Node? {
-        if (!isActive() || this == null) {
+        if (!isActive || this == null) {
             return this
         }
         setVisited(this)

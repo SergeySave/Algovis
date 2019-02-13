@@ -3,6 +3,7 @@ package com.sergeysav.algovis.algorithms.bst
 import com.sergeysav.algovis.Drawer
 import com.sergeysav.algovis.algorithms.Algorithm
 import com.sergeysav.algovis.structures.BSTStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -20,7 +21,7 @@ class AddAlgorithm(val bst: BSTStructure, val toAdd: Int): Algorithm() {
     }
     
     private suspend fun BSTStructure.Node?.add(toAdd: Int): BSTStructure.Node? {
-        if (!isActive()) {
+        if (!isActive) {
             return this
         }
         this@AddAlgorithm.selectedNode = this

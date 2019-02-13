@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -36,8 +37,8 @@ class CocktailSort(array: ArrayStructure): ArrayAlgorithm(array) {
                     swap(i, i + 1)
                     lastChanged = i
                 }
-                
-                if (!isActive()) return
+    
+                if (!isActive) return
             }
             high = lastChanged + 1
             
@@ -52,8 +53,8 @@ class CocktailSort(array: ArrayStructure): ArrayAlgorithm(array) {
                     swap(i, i - 1)
                     lastChanged = i
                 }
-                
-                if (!isActive()) return
+    
+                if (!isActive) return
             }
             low = lastChanged - 1
             

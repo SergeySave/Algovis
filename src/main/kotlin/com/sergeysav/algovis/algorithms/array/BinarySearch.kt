@@ -1,6 +1,7 @@
 package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -31,6 +32,6 @@ class BinarySearch(array: ArrayStructure, private val searchFor: Int): ArrayAlgo
                 searchFor == current -> return
                 searchFor > current  -> low = selected!!
             }
-        } while (low < high)
+        } while (low < high && isActive)
     }
 }

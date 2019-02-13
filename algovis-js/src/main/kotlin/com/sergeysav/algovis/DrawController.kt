@@ -1,7 +1,9 @@
 package com.sergeysav.algovis
 
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLCanvasElement
@@ -15,7 +17,7 @@ class DrawController(val model: Model) {
     
     private val drawer = Drawer(false)
     
-    operator fun invoke() = launch {
+    operator fun invoke() = GlobalScope.launch {
         while (isActive) {
             with(model) {
                 val controlsStyle = window.getComputedStyle(controls)
@@ -40,9 +42,9 @@ class DrawController(val model: Model) {
                 
                 structure.draw(drawer)
                 algorithm?.doDraw(drawer)
-                
-                if (job?.isActive != lastActive) {
-                    lastActive = job?.isActive
+    
+                if (job?.active != lastActive) {
+                    lastActive = job?.active
                     completionCallback(lastActive)
                 }
             }

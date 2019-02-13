@@ -2,6 +2,7 @@ package com.sergeysav.algovis.algorithms.array
 
 import com.sergeysav.algovis.randomInt
 import com.sergeysav.algovis.structures.ArrayStructure
+import kotlinx.coroutines.isActive
 
 /**
  * @author sergeys
@@ -20,7 +21,7 @@ class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
     }
     
     override suspend fun execute() {
-        while (isActive() && notSorted()) {
+        while (isActive && notSorted()) {
             shuffle()
         }
     }
@@ -29,7 +30,7 @@ class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
         for (i in 1 until array.size) {
             setVisited(i)
             index = i
-            if (array.get(i - 1) >= array.get(i) || !isActive()) {
+            if (array.get(i - 1) >= array.get(i) || !isActive) {
                 index = -1
                 return true
             }
@@ -45,8 +46,8 @@ class BogoSort(array: ArrayStructure): ArrayAlgorithm(array) {
             val other = randomInt(0, array.size - 1)
             index2 = other
             swap(i, other)
-            
-            if (!isActive()) {
+    
+            if (!isActive) {
                 return
             }
         }
