@@ -8,6 +8,16 @@ package com.sergeysav.algovis
 class DelayedArray<T>(val baseArray: Array<T>, val getTime: () -> Double, val setTime: () -> Double) {
     val delayer = Delayer()
     
+    private var visitedMain = mutableMapOf<Int, Int>()
+    private var visitedEditing = mutableMapOf<Int, Int>()
+    val visited: MutableMap<Int, Int>
+        get() {
+            val result = visitedMain
+            visitedMain = visitedEditing
+            visitedEditing = result
+            return result
+        }
+    
     constructor(baseArray: Array<T>, getTime: Double, setTime: Double): this(baseArray, { getTime }, { setTime })
     
     /**
@@ -19,6 +29,7 @@ class DelayedArray<T>(val baseArray: Array<T>, val getTime: () -> Double, val se
      */
     suspend fun get(index: Int): T {
         delayer.doDelay(getTime())
+        visitedMain[index] = 0
         return baseArray.get(index)
     }
     
@@ -31,6 +42,7 @@ class DelayedArray<T>(val baseArray: Array<T>, val getTime: () -> Double, val se
      */
     suspend fun set(index: Int, value: T) {
         delayer.doDelay(setTime())
+        visitedMain[index] = 0
         baseArray.set(index, value)
     }
     

@@ -15,20 +15,6 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     protected val buffer = DelayedArray(Array(array.delayArray.size) { -1 }, array::delayMillis,
                                         array::delayMillis)
     
-    var visitedMain = mutableMapOf<Int, Int>()
-    var visitedEditing = mutableMapOf<Int, Int>()
-    
-    var visitedBuffMain = mutableMapOf<Int, Int>()
-    var visitedBuffEditing = mutableMapOf<Int, Int>()
-    
-    fun setVisited(index: Int, type: Int = 0) {
-        visitedMain[index] = type
-    }
-    
-    fun setBuffVisited(index: Int, type: Int = 0) {
-        visitedBuffMain[index] = type
-    }
-    
     open fun getSelection(index: Int): Int = 0
     open fun getBufferSelection(index: Int): Int = 0
     
@@ -40,13 +26,9 @@ abstract class BufferArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     }
     
     override fun doDraw(drawer: Drawer) {
-        val reading = visitedMain
-        visitedMain = visitedEditing
-        visitedEditing = reading
-        
-        val readingBuff = visitedBuffMain
-        visitedBuffMain = visitedBuffEditing
-        visitedBuffEditing = readingBuff
+        val reading = array.delayArray.visited
+    
+        val readingBuff = buffer.visited
         
         for (i in 0 until array.delayArray.baseArray.size) {
             val selection = getSelection(i)

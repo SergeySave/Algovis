@@ -30,7 +30,6 @@ class BubbleSort(array: ArrayStructure): ArrayAlgorithm(array) {
             
             //Loop through the array from the beginning to the previous end value
             for (i in 0 until end) {
-                setVisited(i)
                 selected = i
                 //If the next value in the array is bigger
                 if (array.get(i) > array.get(i + 1)) {

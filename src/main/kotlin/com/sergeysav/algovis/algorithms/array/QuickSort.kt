@@ -46,15 +46,11 @@ class QuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
         val oldHigh = high
     
         while (low < high && isActive) {
-            setVisited(low)
             while (array.get(low) < pivotVal && isActive) {
                 low++
-                setVisited(low)
             }
-            setVisited(high)
             while (array.get(high) > pivotVal && isActive) {
                 high--
-                setVisited(high)
             }
             if (!isActive) {
                 return
@@ -65,14 +61,10 @@ class QuickSort(array: ArrayStructure): ArrayAlgorithm(array) {
                 if (swapPivotIdx == 1) pivotIdx = high
                 if (swapPivotIdx == -1) pivotIdx = low
                 low++
-                setVisited(low)
                 high--
-                setVisited(high)
             } else if (low == high) {
                 low++
-                setVisited(low)
                 high--
-                setVisited(high)
             }
         }
         

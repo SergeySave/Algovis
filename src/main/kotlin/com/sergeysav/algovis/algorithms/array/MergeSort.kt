@@ -17,18 +17,18 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
     private var buffer1: Int = -1
     
     override fun getSelection(index: Int): Int {
-        if (left == index || right == index) {
-            return 2
-        } else if (lcopy == index || rcopy == index) {
-            return 1
-        }
+        //        if (left == index || right == index) {
+        //            return 2
+        //        } else if (lcopy == index || rcopy == index) {
+        //            return 1
+        //        }
         return 0
     }
     
     override fun getBufferSelection(index: Int): Int {
-        if (index == buffer1) {
-            return 1
-        }
+        //        if (index == buffer1) {
+        //            return 1
+        //        }
         return 0
     }
     
@@ -54,13 +54,10 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
         lcopy = start
         rcopy = mid
         for (i in start until end) {
-            setBuffVisited(i)
             buffer1 = i
             if (rcopy < end) {
-                setVisited(rcopy)
             }
             if (lcopy < end) {
-                setVisited(lcopy)
             }
             if (rcopy >= end || lcopy < mid && array.get(lcopy) <= array.get(rcopy)) {
                 buffer.set(i, array.get(lcopy++))
@@ -78,9 +75,7 @@ class MergeSort(array: ArrayStructure): BufferArrayAlgorithm(array) {
         buffer1 = -1
         
         for (i in start until end) {
-            setBuffVisited(i)
             buffer1 = i
-            setVisited(i)
             lcopy = i
             array.set(i, buffer.get(i))
             clearBuffer(i)

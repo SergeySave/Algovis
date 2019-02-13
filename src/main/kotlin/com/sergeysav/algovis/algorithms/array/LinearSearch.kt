@@ -23,7 +23,6 @@ class LinearSearch(array: ArrayStructure, private val searchFor: Int): ArrayAlgo
     
     override suspend fun execute() {
         for (i in 0 until array.size) {
-            setVisited(i)
             selected = i
             if (array.get(i) == searchFor || !isActive) {
                 return

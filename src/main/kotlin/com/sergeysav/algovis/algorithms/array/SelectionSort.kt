@@ -26,12 +26,10 @@ class SelectionSort(array: ArrayStructure): ArrayAlgorithm(array) {
         //Loop through the array
         for (i in 0 until array.size - 1) {
             //The index of the current smallest object found
-            setVisited(i)
             min = i
             selected = i
             //Loop through the array
             for (i2 in i + 1 until array.size) {
-                setVisited(i2)
                 selected = i2
                 //Get the smallest object in the array
                 if (array.get(i2) < array.get(min)) {

@@ -11,13 +11,6 @@ import com.sergeysav.algovis.structures.ArrayStructure
  */
 abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     
-    private var visitedMain = mutableMapOf<Int, Int>()
-    private var visitedEditing = mutableMapOf<Int, Int>()
-    
-    fun setVisited(index: Int, type: Int = 0) = synchronized(visitedMain) {
-        visitedMain[index] = type
-    }
-    
     open fun getSelection(index: Int): Int = 0
     
     override fun initDraw(drawer: Drawer) {
@@ -28,12 +21,8 @@ abstract class ArrayAlgorithm(val array: ArrayStructure): Algorithm() {
     }
     
     override fun doDraw(drawer: Drawer) {
-        
-        val reading = visitedMain
-        synchronized(visitedMain) {
-            visitedMain = visitedEditing
-            visitedEditing = reading
-        }
+    
+        val reading = array.delayArray.visited
         
         for (i in 0 until array.delayArray.baseArray.size) {
             val selection = getSelection(i)

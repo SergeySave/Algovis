@@ -29,7 +29,6 @@ class CocktailSort(array: ArrayStructure): ArrayAlgorithm(array) {
             var lastChanged = low
             
             for (i in low + 1 until high - 1) {
-                setVisited(i)
                 selected = i
                 //If the next value in the array is bigger
                 if (array.get(i) > array.get(i + 1)) {
@@ -45,7 +44,6 @@ class CocktailSort(array: ArrayStructure): ArrayAlgorithm(array) {
             if (lastChanged == low) break
             
             for (i in high - 1 downTo low + 2) {
-                setVisited(i)
                 selected = i
                 //If the current value is greater than the previous
                 if (array.get(i) < array.get(i - 1)) {
